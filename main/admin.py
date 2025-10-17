@@ -1,6 +1,10 @@
 from django.contrib import admin
 from .models import GalleryImage, Service, RecruitmentField, CoreValue, Client, Office, ContactInquiry
 
+admin.site.site_header = "GLOBIS HR Consultancy Administration"
+admin.site.site_title = "GLOBIS HR Admin"
+admin.site.index_title = "Dashboard"
+
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ['title', 'order']
