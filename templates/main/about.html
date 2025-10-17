@@ -1,0 +1,409 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - GLOBIS HR CONSULTANCY{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+        padding: 120px 0 100px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .about-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+    }
+    
+    .about-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+        background-size: cover;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-left: 40px;
+        margin-bottom: 2rem;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.2);
+    }
+    
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        left: 9px;
+        top: 20px;
+        width: 2px;
+        height: calc(100% + 2rem);
+        background: linear-gradient(180deg, #1e40af, transparent);
+    }
+    
+    .timeline-item:last-child::after {
+        display: none;
+    }
+    
+    .value-card {
+        position: relative;
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+        overflow: hidden;
+    }
+    
+    .value-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+    
+    .value-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .value-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(30, 64, 175, 0.15);
+        border-color: #1e40af;
+    }
+    
+    .value-number {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+    }
+    
+    .location-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .location-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(30, 64, 175, 0.1), transparent);
+        transition: left 0.5s;
+    }
+    
+    .location-card:hover::before {
+        left: 100%;
+    }
+    
+    .location-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 50px rgba(30, 64, 175, 0.15);
+    }
+    
+    .location-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
+        transition: all 0.4s ease;
+    }
+    
+    .location-card:hover .location-icon {
+        transform: rotateY(360deg);
+    }
+    
+    .headquarters-badge {
+        display: inline-block;
+        padding: 0.4rem 1rem;
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        color: #1e3a8a;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .vision-mission-card {
+        background: white;
+        border-radius: 25px;
+        padding: 3rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+    }
+    
+    .vision-mission-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(30, 64, 175, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        transition: all 0.6s ease;
+    }
+    
+    .vision-mission-card:hover::before {
+        top: -20%;
+        right: -20%;
+        width: 300px;
+        height: 300px;
+    }
+    
+    .vision-mission-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(30, 64, 175, 0.2);
+    }
+    
+    .icon-badge {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 30px rgba(30, 64, 175, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="about-hero text-center text-white">
+    <div class="container position-relative" style="z-index: 1;">
+        <div data-aos="fade-up">
+            <h1 class="display-3 fw-bold mb-3">About Us</h1>
+            <p class="lead tagline mb-3" style="font-size: 1.4rem;">~ Making a Difference ~</p>
+            <p class="lead" style="font-size: 1.1rem; opacity: 0.9;">Building bridges between talent and opportunity</p>
+        </div>
+    </div>
+</section>
+
+<!-- Who We Are Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <h2 class="section-title mb-4">Who We Are</h2>
+                <p class="lead mb-4">GLOBIS HR CONSULTANCY FZE LLC is an international recruitment company providing both local and global hiring solutions.</p>
+                
+                <div class="timeline-item">
+                    <h5 class="mb-2">🌍 Global Presence</h5>
+                    <p>Headquartered in Dubai, United Arab Emirates, with regional offices in Nigeria, Ghana, Uganda, and Kenya.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h5 class="mb-2">🎯 Our Focus</h5>
+                    <p>Dedicated to efficient sourcing and placement of skilled manpower across the African continent.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h5 class="mb-2">💼 Comprehensive Services</h5>
+                    <p>Specializing in recruitment of both blue-collar and white-collar personnel.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h5 class="mb-2">👥 Expert Leadership</h5>
+                    <p>Board of Directors consisting of experienced, dynamic professionals committed to client satisfaction.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="stat-card text-center">
+                            <i class="fas fa-globe-africa fa-3x mb-3" style="color: #1e40af;"></i>
+                            <div class="stat-number">5+</div>
+                            <p class="mb-0 text-muted">Countries</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card text-center">
+                            <i class="fas fa-handshake fa-3x mb-3" style="color: #0ea5e9;"></i>
+                            <div class="stat-number">100+</div>
+                            <p class="mb-0 text-muted">Clients</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card text-center">
+                            <i class="fas fa-users fa-3x mb-3" style="color: #10b981;"></i>
+                            <div class="stat-number">1000+</div>
+                            <p class="mb-0 text-muted">Placements</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card text-center">
+                            <i class="fas fa-award fa-3x mb-3" style="color: #f59e0b;"></i>
+                            <div class="stat-number">10+</div>
+                            <p class="mb-0 text-muted">Years</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Values -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">Our Core Values</h2>
+            <p class="lead mt-4">The principles that drive our excellence</p>
+        </div>
+        <div class="row g-4">
+            {% for value in core_values %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:0 }}00">
+                <div class="value-card text-center">
+                    <div class="value-number mb-3">{{ value.number|stringformat:"02d" }}</div>
+                    <h4 class="mb-0">{{ value.title }}</h4>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Our Global Presence -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">Our Global Presence</h2>
+            <p class="lead mt-4">Offices across Africa and the Middle East</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="location-card text-center">
+                    <div class="location-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                        <i class="fas fa-building fa-2x" style="color: white;"></i>
+                    </div>
+                    <span class="headquarters-badge mb-3">Headquarters</span>
+                    <h5 class="mb-2 mt-2">Dubai, UAE</h5>
+                    <p class="text-muted mb-1"><strong>GLOBIS HR CONSULTANCY FZE LLC</strong></p>
+                    <small class="text-muted">Office# 510, Mai Tower, Al Nahda</small>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="location-card text-center">
+                    <div class="location-icon">
+                        <i class="fas fa-map-marker-alt fa-2x" style="color: white;"></i>
+                    </div>
+                    <h5 class="mb-2">🇳🇬 Nigeria</h5>
+                    <p class="text-muted mb-1"><strong>SERAH RECRUITMENT & SERVICES</strong></p>
+                    <small class="text-muted">Lagos, Nigeria</small>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="location-card text-center">
+                    <div class="location-icon">
+                        <i class="fas fa-map-marker-alt fa-2x" style="color: white;"></i>
+                    </div>
+                    <h5 class="mb-2">🇬🇭 Ghana</h5>
+                    <p class="text-muted mb-1"><strong>GLOBIS RECRUITMENT AGENCY LTD.</strong></p>
+                    <small class="text-muted">Accra, Ghana</small>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="location-card text-center">
+                    <div class="location-icon">
+                        <i class="fas fa-map-marker-alt fa-2x" style="color: white;"></i>
+                    </div>
+                    <h5 class="mb-2">🇺🇬 Uganda</h5>
+                    <p class="text-muted mb-1"><strong>GLOBIS HR SOLUTIONS UGANDA LTD.</strong></p>
+                    <small class="text-muted">Kampala, Uganda</small>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                <div class="location-card text-center">
+                    <div class="location-icon">
+                        <i class="fas fa-map-marker-alt fa-2x" style="color: white;"></i>
+                    </div>
+                    <h5 class="mb-2">🇰🇪 Kenya</h5>
+                    <p class="text-muted mb-1"><strong>GLOBIS HR CONSULTANCY LTD.</strong></p>
+                    <small class="text-muted">Mombasa, Kenya</small>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                <div class="location-card text-center">
+                    <div class="location-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-globe fa-2x" style="color: white;"></i>
+                    </div>
+                    <h5 class="mb-2">🌏 Associate Offices</h5>
+                    <p class="text-muted mb-1"><strong>Expanding Network</strong></p>
+                    <small class="text-muted">India • Nepal • Pakistan • Bangladesh</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%); color: white;">
+    <div class="container text-center" data-aos="zoom-in">
+        <h2 class="display-5 fw-bold mb-4">Want to Learn More?</h2>
+        <p class="lead mb-4">Discover how we can help you build your dream team</p>
+        <a href="{% url 'contact' %}" class="btn btn-warning btn-lg me-3">
+            <i class="fas fa-envelope me-2"></i>Contact Us
+        </a>
+        <a href="{% url 'services' %}" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-briefcase me-2"></i>Our Services
+        </a>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,431 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - GLOBIS HR CONSULTANCY FZE LLC{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Animated SVG Illustrations */
+    .hero-illustration {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .float-icon {
+        position: absolute;
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .float-icon:nth-child(1) { animation-delay: 0s; }
+    .float-icon:nth-child(2) { animation-delay: 0.5s; }
+    .float-icon:nth-child(3) { animation-delay: 1s; }
+    .float-icon:nth-child(4) { animation-delay: 1.5s; }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .pulse-circle {
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.1); opacity: 1; }
+    }
+    
+    /* Stats Counter Animation */
+    .stat-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(30, 64, 175, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(30, 64, 175, 0.15);
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Feature Cards */
+    .feature-card {
+        position: relative;
+        padding: 2.5rem 2rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+    
+    .feature-card:hover {
+        border-color: #1e40af;
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(30, 64, 175, 0.2);
+    }
+    
+    .feature-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(30, 64, 175, 0.3);
+    }
+    
+    .feature-icon-wrapper::after {
+        content: '';
+        position: absolute;
+        inset: -5px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: -1;
+    }
+    
+    .feature-card:hover .feature-icon-wrapper::after {
+        opacity: 1;
+    }
+    
+    .feature-icon-wrapper i {
+        color: white;
+        font-size: 2rem;
+    }
+    
+    /* Testimonial Carousel */
+    .testimonial-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        position: relative;
+        margin: 1rem;
+    }
+    
+    .testimonial-card::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 30px;
+        font-size: 6rem;
+        color: #1e40af;
+        opacity: 0.1;
+        font-family: Georgia, serif;
+    }
+    
+    .stars {
+        color: #fbbf24;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Process Timeline */
+    .process-step {
+        position: relative;
+        padding: 2rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+    }
+    
+    .process-step:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(30, 64, 175, 0.15);
+    }
+    
+    .step-number {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 auto 1rem;
+        box-shadow: 0 5px 15px rgba(30, 64, 175, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Animated Illustration -->
+<section class="hero-section">
+    <div class="container position-relative" style="z-index: 1;">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0" data-aos="fade-right">
+                <h1 class="display-3 fw-bold mb-4">GLOBIS HR CONSULTANCY FZE LLC</h1>
+                <p class="lead mb-3 tagline">~ Making a Difference ~</p>
+                <p class="lead mb-5">International Recruitment Solutions Across Africa and Beyond</p>
+                <a href="{% url 'contact' %}" class="btn btn-warning btn-lg me-3 mb-3" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-rocket me-2"></i>Get Started
+                </a>
+                <a href="{% url 'services' %}" class="btn btn-outline-light btn-lg mb-3" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-briefcase me-2"></i>Our Services
+                </a>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="hero-illustration">
+                    <!-- Animated SVG Illustration -->
+                    <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Background Circle -->
+                        <circle cx="250" cy="250" r="200" fill="rgba(255,255,255,0.1)" class="pulse-circle"/>
+                        
+                        <!-- Central Figure (Person) -->
+                        <g transform="translate(250, 250)">
+                            <!-- Head -->
+                            <circle cx="0" cy="-50" r="30" fill="white" opacity="0.9"/>
+                            <!-- Body -->
+                            <rect x="-25" y="-15" width="50" height="70" rx="10" fill="white" opacity="0.9"/>
+                            <!-- Arms -->
+                            <rect x="-50" y="-10" width="25" height="40" rx="5" fill="white" opacity="0.9"/>
+                            <rect x="25" y="-10" width="25" height="40" rx="5" fill="white" opacity="0.9"/>
+                        </g>
+                        
+                        <!-- Floating Icons Around -->
+                        <g class="float-icon" opacity="0.9">
+                            <circle cx="150" cy="150" r="35" fill="#fbbf24"/>
+                            <text x="150" y="165" text-anchor="middle" font-size="30" fill="white">💼</text>
+                        </g>
+                        
+                        <g class="float-icon" opacity="0.9">
+                            <circle cx="350" cy="150" r="35" fill="#0ea5e9"/>
+                            <text x="350" y="165" text-anchor="middle" font-size="30" fill="white">🌍</text>
+                        </g>
+                        
+                        <g class="float-icon" opacity="0.9">
+                            <circle cx="150" cy="350" r="35" fill="#10b981"/>
+                            <text x="150" y="365" text-anchor="middle" font-size="30" fill="white">🤝</text>
+                        </g>
+                        
+                        <g class="float-icon" opacity="0.9">
+                            <circle cx="350" cy="350" r="35" fill="#f59e0b"/>
+                            <text x="350" y="365" text-anchor="middle" font-size="30" fill="white">✨</text>
+                        </g>
+                        
+                        <!-- Connecting Lines -->
+                        <line x1="150" y1="150" x2="250" y2="200" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="350" y1="150" x2="250" y2="200" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="150" y1="350" x2="250" y2="300" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="350" y1="350" x2="250" y2="300" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite"/>
+                        </line>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <h2 class="section-title">About Us</h2>
+                <h3 class="h4 mt-4 mb-3">Who We Are</h3>
+                <p>GLOBIS HR CONSULTANCY FZE LLC is an international recruitment company providing both local and global hiring solutions. Headquartered in Dubai, United Arab Emirates, we also have regional offices in Nigeria, Ghana, Uganda, and Kenya.</p>
+                <p>We are dedicated to the efficient sourcing and placement of skilled manpower from across the African continent. Our commitment to excellence and deep understanding of diverse labor markets position us as a trusted partner in talent acquisition.</p>
+                <a href="{% url 'about' %}" class="btn btn-primary mt-3">
+                    <i class="fas fa-arrow-right me-2"></i>Learn More
+                </a>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="feature-card text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="fas fa-globe-africa"></i>
+                            </div>
+                            <h5>5 Countries</h5>
+                            <p class="mb-0 text-muted">Pan-African Presence</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="feature-card text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h5>Expert Team</h5>
+                            <p class="mb-0 text-muted">Experienced Professionals</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="feature-card text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <h5>Quality</h5>
+                            <p class="mb-0 text-muted">Best Practices</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="feature-card text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h5>Trust</h5>
+                            <p class="mb-0 text-muted">Reliable Partner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">Our Services</h2>
+            <p class="lead mt-4">Comprehensive HR and Business Solutions</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="card text-center p-4">
+                    <div class="service-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4>Manpower Recruitment</h4>
+                    <p>Expert recruitment services for blue-collar and white-collar personnel across all industries.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card text-center p-4">
+                    <div class="service-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h4>Tourism</h4>
+                    <p>Professional tourism services and travel arrangements for business and leisure.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card text-center p-4">
+                    <div class="service-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h4>Trade</h4>
+                    <p>Facilitating international trade and business development opportunities.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card text-center p-4">
+                    <div class="service-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h4>Consultation</h4>
+                    <p>Expert consultation services for HR strategy and workforce planning.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                <div class="card text-center p-4">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4>Training</h4>
+                    <p>Professional training programs to enhance workforce skills and capabilities.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                <div class="card text-center p-4">
+                    <div class="service-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h4>Airline Ticketing</h4>
+                    <p>Convenient airline ticketing and reservation services worldwide.</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{% url 'services' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-th me-2"></i>View All Services
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Vision & Mission Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-md-6" data-aos="fade-right">
+                <div class="card h-100 border-0 shadow-lg" style="background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%); color: white;">
+                    <div class="card-body p-5">
+                        <div class="service-icon mb-4" style="background: rgba(255,255,255,0.2);">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p class="lead">To become the trusted and leading global provider of skilled, semi-skilled, and unskilled workforce recruitment services, catering to a diverse range of industries worldwide.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" data-aos="fade-left">
+                <div class="card h-100 border-0 shadow-lg" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">
+                    <div class="card-body p-5">
+                        <div class="service-icon mb-4" style="background: rgba(255,255,255,0.2);">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p class="lead">To consistently apply best practices in the search, screening, processing, and management of human talent, aligning with specific job requirements to deliver the most suitable candidates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%); color: white; position: relative; overflow: hidden;">
+    <div class="container text-center position-relative" style="z-index: 1;" data-aos="zoom-in">
+        <h2 class="display-5 fw-bold mb-4">Ready to Build Your Team?</h2>
+        <p class="lead mb-4">Let us help you find the right talent for your organization</p>
+        <a href="{% url 'contact' %}" class="btn btn-warning btn-lg px-5">
+            <i class="fas fa-paper-plane me-2"></i>Contact Us Today
+        </a>
+    </div>
+    <!-- Decorative circles -->
+    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+    <div style="position: absolute; bottom: -80px; left: -80px; width: 250px; height: 250px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+</section>
+
+{% endblock %}

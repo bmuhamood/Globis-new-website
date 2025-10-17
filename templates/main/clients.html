@@ -1,0 +1,498 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Clients - GLOBIS HR CONSULTANCY{% endblock %}
+
+{% block extra_css %}
+<style>
+    .clients-hero {
+        background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+        padding: 120px 0 100px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .clients-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+    }
+    
+    .clients-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+        background-size: cover;
+    }
+    
+    .client-logo-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 150px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .client-logo-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(30, 64, 175, 0.05), transparent);
+        transition: left 0.5s;
+    }
+    
+    .client-logo-card:hover::before {
+        left: 100%;
+    }
+    
+    .client-logo-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(30, 64, 175, 0.15);
+    }
+    
+    .industry-card {
+        background: white;
+        border-radius: 25px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid transparent;
+    }
+    
+    .industry-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+    
+    .industry-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .industry-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 25px 60px rgba(30, 64, 175, 0.15);
+        border-color: #1e40af;
+    }
+    
+    .industry-icon {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        box-shadow: 0 15px 35px rgba(30, 64, 175, 0.3);
+        transition: all 0.4s ease;
+    }
+    
+    .industry-card:hover .industry-icon {
+        transform: rotateY(360deg) scale(1.1);
+    }
+    
+    .industry-icon i {
+        color: white;
+        font-size: 2.2rem;
+    }
+    
+    /* Different colors for industries */
+    .healthcare .industry-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .construction .industry-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .hospitality .industry-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .education .industry-icon { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+    .security .industry-icon { background: linear-gradient(135deg, #10b981, #059669); }
+    .retail .industry-icon { background: linear-gradient(135deg, #ec4899, #db2777); }
+    .manufacturing .industry-icon { background: linear-gradient(135deg, #64748b, #475569); }
+    .corporate .industry-icon { background: linear-gradient(135deg, #1e40af, #0ea5e9); }
+    
+    .testimonial-card {
+        background: white;
+        border-radius: 25px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        position: relative;
+        height: 100%;
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+    
+    .testimonial-card::before {
+        content: '"';
+        position: absolute;
+        top: -30px;
+        left: 30px;
+        font-size: 8rem;
+        color: #1e40af;
+        opacity: 0.1;
+        font-family: Georgia, serif;
+        line-height: 1;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(30, 64, 175, 0.15);
+        border-color: #1e40af;
+    }
+    
+    .stars {
+        color: #fbbf24;
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .client-avatar {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+        box-shadow: 0 5px 15px rgba(30, 64, 175, 0.3);
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+    
+    .stat-box {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+    
+    .stat-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(30, 64, 175, 0.15);
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="clients-hero text-center text-white">
+    <div class="container position-relative" style="z-index: 1;">
+        <div data-aos="fade-up">
+            <h1 class="display-3 fw-bold mb-3">Our Clients</h1>
+            <p class="lead mb-3" style="font-size: 1.3rem;">Trusted by leading organizations worldwide</p>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Building lasting partnerships through excellence</p>
+        </div>
+    </div>
+</section>
+
+<!-- Client Stats -->
+<!-- <section class="container" style="margin-top: -50px; position: relative; z-index: 10;">
+    <div class="stats-grid" data-aos="fade-up">
+        <div class="stat-box">
+            <div class="stat-number">100+</div>
+            <p class="text-muted mb-0">Happy Clients</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">15+</div>
+            <p class="text-muted mb-0">Industries</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">5</div>
+            <p class="text-muted mb-0">Countries</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">98%</div>
+            <p class="text-muted mb-0">Satisfaction</p>
+        </div>
+    </div>
+</section> -->
+
+<!-- Trusted Partners Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title mb-4">Trusted Partners</h2>
+                <p class="lead">We are proud to serve a diverse range of clients across multiple industries and sectors. Our commitment to excellence has earned us the trust of organizations worldwide.</p>
+            </div>
+        </div>
+
+        {% if clients %}
+        <div class="row g-4">
+            {% for client in clients %}
+            <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:0 }}00">
+                <div class="client-logo-card">
+                    {% if client.logo %}
+                    <img src="{{ client.logo.url }}" alt="{{ client.name }}" class="img-fluid" style="max-height: 80px; max-width: 100%; object-fit: contain;">
+                    {% else %}
+                    <div>
+                        <div class="service-icon mx-auto mb-2" style="width: 60px; height: 60px;">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h6 class="mb-0">{{ client.name }}</h6>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="row g-4">
+            <div class="col-md-4 col-lg-3" data-aos="fade-up">
+                <div class="client-logo-card">
+                    <div>
+                        <div class="service-icon mx-auto mb-2" style="width: 60px; height: 60px;">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h6 class="mb-0">Client Logo</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="client-logo-card">
+                    <div>
+                        <div class="service-icon mx-auto mb-2" style="width: 60px; height: 60px;">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h6 class="mb-0">Corporate Client</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="client-logo-card">
+                    <div>
+                        <div class="service-icon mx-auto mb-2" style="width: 60px; height: 60px;">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h6 class="mb-0">Healthcare Partner</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="client-logo-card">
+                    <div>
+                        <div class="service-icon mx-auto mb-2" style="width: 60px; height: 60px;">
+                            <i class="fas fa-hotel"></i>
+                        </div>
+                        <h6 class="mb-0">Hospitality Group</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p class="text-muted"><i class="fas fa-info-circle me-2"></i>Client logos will be displayed once uploaded through the admin panel</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Industries We Serve -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">Industries We Serve</h2>
+            <p class="lead mt-4">Expertise across diverse sectors</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                <div class="industry-card healthcare">
+                    <div class="industry-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h5 class="mb-2">Healthcare</h5>
+                    <p class="text-muted mb-0">Medical facilities and hospitals</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="industry-card construction">
+                    <div class="industry-icon">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <h5 class="mb-2">Construction</h5>
+                    <p class="text-muted mb-0">Building and infrastructure</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="industry-card hospitality">
+                    <div class="industry-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h5 class="mb-2">Hospitality</h5>
+                    <p class="text-muted mb-0">Hotels and restaurants</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="industry-card education">
+                    <div class="industry-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h5 class="mb-2">Education</h5>
+                    <p class="text-muted mb-0">Schools and institutions</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="industry-card security">
+                    <div class="industry-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h5 class="mb-2">Security</h5>
+                    <p class="text-muted mb-0">Security and protection services</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="500">
+                <div class="industry-card retail">
+                    <div class="industry-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h5 class="mb-2">Retail</h5>
+                    <p class="text-muted mb-0">Shops and commercial outlets</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
+                <div class="industry-card manufacturing">
+                    <div class="industry-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h5 class="mb-2">Manufacturing</h5>
+                    <p class="text-muted mb-0">Production and factories</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="700">
+                <div class="industry-card corporate">
+                    <div class="industry-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h5 class="mb-2">Corporate</h5>
+                    <p class="text-muted mb-0">Business and administration</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">What Our Clients Say</h2>
+            <p class="lead mt-4">Success stories from satisfied clients</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="testimonial-card">
+                    <div class="client-avatar">H</div>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="mb-4 text-muted" style="font-style: italic;">"GLOBIS HR Consultancy provided us with exceptional recruitment services. Their understanding of our needs and quick turnaround time exceeded our expectations."</p>
+                    <div class="mt-auto">
+                        <h6 class="mb-1 fw-bold">Healthcare Facility</h6>
+                        <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Dubai, UAE</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="testimonial-card">
+                    <div class="client-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">C</div>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="mb-4 text-muted" style="font-style: italic;">"Professional, reliable, and efficient. GLOBIS helped us build our team with highly qualified engineers. We highly recommend their services."</p>
+                    <div class="mt-auto">
+                        <h6 class="mb-1 fw-bold">Construction Company</h6>
+                        <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Nigeria</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="testimonial-card">
+                    <div class="client-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">H</div>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="mb-4 text-muted" style="font-style: italic;">"The quality of candidates presented to us was outstanding. GLOBIS truly understands the hospitality industry and our specific requirements."</p>
+                    <div class="mt-auto">
+                        <h6 class="mb-1 fw-bold">Hotel Chain</h6>
+                        <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Kenya</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%); color: white;">
+    <div class="container text-center" data-aos="zoom-in">
+        <h2 class="display-5 fw-bold mb-4">Join Our Growing Client Base</h2>
+        <p class="lead mb-4">Experience the GLOBIS difference in recruitment excellence</p>
+        <a href="{% url 'contact' %}" class="btn btn-warning btn-lg px-5">
+            <i class="fas fa-handshake me-2"></i>Partner With Us
+        </a>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,427 @@
+{% extends 'base.html' %}
+
+{% block title %}Recruitment Services - GLOBIS HR CONSULTANCY{% endblock %}
+
+{% block extra_css %}
+<style>
+    .recruitment-hero {
+        background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+        padding: 120px 0 100px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .recruitment-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+    }
+    
+    .recruitment-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+        background-size: cover;
+    }
+    
+    .specialty-card {
+        background: white;
+        border-radius: 25px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        border: 2px solid transparent;
+        height: 100%;
+    }
+    
+    .specialty-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+    
+    .specialty-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .specialty-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(30, 64, 175, 0.05), transparent);
+        transition: right 0.6s;
+    }
+    
+    .specialty-card:hover::after {
+        right: 100%;
+    }
+    
+    .specialty-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(30, 64, 175, 0.15);
+        border-color: #1e40af;
+    }
+    
+    .specialty-icon {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 15px 35px rgba(30, 64, 175, 0.3);
+        position: relative;
+        transition: all 0.4s ease;
+    }
+    
+    .specialty-icon::after {
+        content: '';
+        position: absolute;
+        inset: -5px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: -1;
+    }
+    
+    .specialty-card:hover .specialty-icon {
+        transform: rotateY(360deg) scale(1.1);
+    }
+    
+    .specialty-card:hover .specialty-icon::after {
+        opacity: 1;
+    }
+    
+    .specialty-icon i {
+        color: white;
+        font-size: 2.5rem;
+    }
+    
+    .specialty-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+    
+    .specialty-list li {
+        padding: 0.7rem 0;
+        border-bottom: 1px solid #f1f5f9;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .specialty-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .specialty-list li:hover {
+        padding-left: 10px;
+        color: #1e40af;
+    }
+    
+    .specialty-list i {
+        color: #10b981;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+    
+    .category-badge {
+        display: inline-block;
+        padding: 0.4rem 1rem;
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        color: #1e3a8a;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1rem;
+    }
+    
+    /* Different colors for each category */
+    .medical-icon { background: linear-gradient(135deg, #ef4444, #dc2626) !important; }
+    .engineering-icon { background: linear-gradient(135deg, #f59e0b, #d97706) !important; }
+    .security-icon { background: linear-gradient(135deg, #10b981, #059669) !important; }
+    .hospitality-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important; }
+    .education-icon { background: linear-gradient(135deg, #06b6d4, #0891b2) !important; }
+    .marketing-icon { background: linear-gradient(135deg, #ec4899, #db2777) !important; }
+    
+    .stats-banner {
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 25px;
+        box-shadow: 0 10px 40px rgba(30, 64, 175, 0.3);
+        margin: -50px 0 0;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="recruitment-hero text-center text-white">
+    <div class="container position-relative" style="z-index: 1;">
+        <div data-aos="fade-up">
+            <h1 class="display-3 fw-bold mb-3">Recruitment Specializations</h1>
+            <p class="lead mb-3" style="font-size: 1.3rem;">Expert talent acquisition across diverse industries and sectors</p>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Connecting the right talent with the right opportunities</p>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Banner -->
+<section class="container" style="margin-top: -50px;">
+    <div class="stats-banner" data-aos="fade-up">
+        <div class="row">
+            <div class="col-6 col-md-3 stat-item">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Specializations</div>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Job Categories</div>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Industries</div>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recruitment Fields -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">Our Specializations</h2>
+            <p class="lead mt-4">Comprehensive recruitment services across multiple sectors</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Administrative Fields -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
+                <div class="specialty-card">
+                    <span class="category-badge">Office & Administration</span>
+                    <div class="specialty-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="mb-3">Administrative Fields</h3>
+                    <p class="text-muted">We specialize in recruiting top-tier talent for administrative positions, including executive secretaries, managers, and other skilled professionals.</p>
+                </div>
+            </div>
+
+            <!-- Engineering & Construction -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="specialty-card">
+                    <span class="category-badge" style="background: linear-gradient(135deg, #fed7aa, #fdba74); color: #92400e;">Engineering & Technical</span>
+                    <div class="specialty-icon engineering-icon">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <h3 class="mb-3">Engineering & Construction</h3>
+                    <p class="text-muted">We offer recruitment services for professionals across engineering disciplines including:</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-check-circle"></i>Civil Engineering</li>
+                        <li><i class="fas fa-check-circle"></i>Architecture</li>
+                        <li><i class="fas fa-check-circle"></i>Electrical & Mechanical Engineering</li>
+                        <li><i class="fas fa-check-circle"></i>Chemical Engineering</li>
+                        <li><i class="fas fa-check-circle"></i>IT & Agricultural Engineering</li>
+                        <li><i class="fas fa-check-circle"></i>Safety & Technical Fields</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Medical & Paramedical -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="specialty-card">
+                    <span class="category-badge" style="background: linear-gradient(135deg, #fecaca, #fca5a5); color: #991b1b;">Healthcare</span>
+                    <div class="specialty-icon medical-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3 class="mb-3">Medical & Paramedical</h3>
+                    <p class="text-muted">We provide recruitment services for male and female health workers across all specialties:</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-check-circle"></i>Doctors</li>
+                        <li><i class="fas fa-check-circle"></i>Nurses</li>
+                        <li><i class="fas fa-check-circle"></i>Caregivers</li>
+                        <li><i class="fas fa-check-circle"></i>Paramedics</li>
+                        <li><i class="fas fa-check-circle"></i>Ambulance Drivers</li>
+                        <li><i class="fas fa-check-circle"></i>Home Care Specialists</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Security Guards -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="specialty-card">
+                    <span class="category-badge" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46;">Security Services</span>
+                    <div class="specialty-icon security-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="mb-3">Security Personnel</h3>
+                    <p class="text-muted">We provide highly trained security personnel for various establishments:</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-check-circle"></i>Security Guards</li>
+                        <li><i class="fas fa-check-circle"></i>Security Managers</li>
+                        <li><i class="fas fa-check-circle"></i>Security Officers</li>
+                        <li><i class="fas fa-check-circle"></i>Security Supervisors</li>
+                    </ul>
+                    <p class="mt-3 text-muted"><small><i class="fas fa-info-circle me-2"></i>For offices, commercial establishments, and residential properties</small></p>
+                </div>
+            </div>
+
+            <!-- Drivers -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="specialty-card">
+                    <span class="category-badge">Transportation</span>
+                    <div class="specialty-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="mb-3">Professional Drivers</h3>
+                    <p class="text-muted">Our company specializes in providing professional, dedicated, and reliable drivers to ensure the comfort and safety of our clients.</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-check-circle"></i>Personal Drivers</li>
+                        <li><i class="fas fa-check-circle"></i>Chauffeurs</li>
+                        <li><i class="fas fa-check-circle"></i>Corporate Drivers</li>
+                        <li><i class="fas fa-check-circle"></i>Heavy Vehicle Operators</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Hospitality & Tourism -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="specialty-card">
+                    <span class="category-badge" style="background: linear-gradient(135deg, #ddd6fe, #c4b5fd); color: #5b21b6;">Hospitality</span>
+                    <div class="specialty-icon hospitality-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3 class="mb-3">Hospitality & Tourism</h3>
+                    <p class="text-muted">We specialize in recruitment for the Hospitality and Tourism sectors:</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-check-circle"></i>Chefs & Baristas</li>
+                        <li><i class="fas fa-check-circle"></i>Airline Ticketing & Reservation Crew</li>
+                        <li><i class="fas fa-check-circle"></i>Waitstaff & Kitchen Stewards</li>
+                        <li><i class="fas fa-check-circle"></i>Housekeepers & Bartenders</li>
+                        <li><i class="fas fa-check-circle"></i>Air Hostesses & Flight Captains</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="specialty-card">
+                    <span class="category-badge" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); color: #155e75;">Education</span>
+                    <div class="specialty-icon education-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="mb-3">Education</h3>
+                    <p class="text-muted">We specialize in the recruitment of educators across diverse disciplines:</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-check-circle"></i>Science Teachers</li>
+                        <li><i class="fas fa-check-circle"></i>Language Instructors</li>
+                        <li><i class="fas fa-check-circle"></i>Computer Science Educators</li>
+                        <li><i class="fas fa-check-circle"></i>English Teachers</li>
+                        <li><i class="fas fa-check-circle"></i>Law & Mathematics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Marketing -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="700">
+                <div class="specialty-card">
+                    <span class="category-badge" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8); color: #9f1239;">Sales & Marketing</span>
+                    <div class="specialty-icon marketing-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="mb-3">Marketing Fields</h3>
+                    <p class="text-muted">We specialize in managing recruitment for various marketing positions:</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-check-circle"></i>Salespersons</li>
+                        <li><i class="fas fa-check-circle"></i>Sales Executives</li>
+                        <li><i class="fas fa-check-circle"></i>Cashiers</li>
+                        <li><i class="fas fa-check-circle"></i>Shop Managers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tailoring & Beauty -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="800">
+                <div class="specialty-card">
+                    <span class="category-badge">Fashion & Beauty</span>
+                    <div class="specialty-icon">
+                        <i class="fas fa-cut"></i>
+                    </div>
+                    <h3 class="mb-3">Tailoring & Beauty Fields</h3>
+                    <p class="text-muted">We specialize in recruitment of specialists in various beauty and fashion sectors:</p>
+                    <ul class="specialty-list">
+                        <li><i class="fas fa-check-circle"></i>Women's & Men's Tailoring</li>
+                        <li><i class="fas fa-check-circle"></i>Computerized Design Templates</li>
+                        <li><i class="fas fa-check-circle"></i>Embroidery & Design</li>
+                        <li><i class="fas fa-check-circle"></i>Hairdressing</li>
+                        <li><i class="fas fa-check-circle"></i>Makeup & Cosmetics Experts</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%); color: white;">
+    <div class="container text-center" data-aos="zoom-in">
+        <h2 class="display-5 fw-bold mb-4">Need Specialized Talent?</h2>
+        <p class="lead mb-4">Let us help you find the perfect candidates for your organization</p>
+        <a href="{% url 'contact' %}" class="btn btn-warning btn-lg px-5">
+            <i class="fas fa-paper-plane me-2"></i>Request Recruitment Services
+        </a>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+
+{% block title %}Recruitment Process - GLOBIS HR CONSULTANCY{% endblock %}
+
+{% block extra_css %}
+<style>
+    .process-hero {
+        background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+        padding: 120px 0 100px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .process-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+    }
+    
+    .process-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+        background-size: cover;
+    }
+    
+    .document-card {
+        background: white;
+        border-radius: 25px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        border: 2px solid transparent;
+        height: 100%;
+    }
+    
+    .document-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(30, 64, 175, 0.05), transparent);
+        transition: left 0.6s;
+    }
+    
+    .document-card:hover::before {
+        left: 100%;
+    }
+    
+    .document-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(30, 64, 175, 0.15);
+        border-color: #1e40af;
+    }
+    
+    .document-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 15px 35px rgba(30, 64, 175, 0.3);
+        transition: all 0.4s ease;
+    }
+    
+    .document-card:hover .document-icon-wrapper {
+        transform: rotateY(360deg) scale(1.1);
+    }
+    
+    .document-icon-wrapper i {
+        color: white;
+        font-size: 2rem;
+    }
+    
+    .document-badge {
+        display: inline-block;
+        padding: 0.4rem 1.2rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1rem;
+    }
+    
+    .badge-1 { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e3a8a; }
+    .badge-2 { background: linear-gradient(135deg, #fed7aa, #fdba74); color: #92400e; }
+    .badge-3 { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46; }
+    .badge-4 { background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: #075985; }
+    
+    .requirement-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+    
+    .requirement-list li {
+        padding: 0.7rem 0;
+        border-bottom: 1px solid #f1f5f9;
+        transition: all 0.3s;
+        display: flex;
+        align-items: start;
+        gap: 0.5rem;
+    }
+    
+    .requirement-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .requirement-list li:hover {
+        padding-left: 10px;
+        color: #1e40af;
+    }
+    
+    .requirement-list i {
+        color: #10b981;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        margin-top: 0.2rem;
+    }
+    
+    .timeline-step {
+        position: relative;
+        background: white;
+        border-radius: 25px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+    
+    .timeline-step:hover {
+        transform: scale(1.05);
+        box-shadow: 0 20px 50px rgba(30, 64, 175, 0.15);
+        border-color: #1e40af;
+    }
+    
+    .step-number-circle {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #1e40af, #0ea5e9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        font-size: 2rem;
+        font-weight: 800;
+        box-shadow: 0 15px 35px rgba(30, 64, 175, 0.3);
+        position: relative;
+    }
+    
+    .step-number-circle::after {
+        content: '';
+        position: absolute;
+        inset: -10px;
+        background: inherit;
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: pulse-ring 2s infinite;
+    }
+    
+    @keyframes pulse-ring {
+        0% {
+            transform: scale(1);
+            opacity: 0.3;
+        }
+        100% {
+            transform: scale(1.4);
+            opacity: 0;
+        }
+    }
+    
+    .step-1 .step-number-circle { background: linear-gradient(135deg, #1e40af, #0ea5e9); }
+    .step-2 .step-number-circle { background: linear-gradient(135deg, #10b981, #059669); }
+    .step-3 .step-number-circle { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .step-4 .step-number-circle { background: linear-gradient(135deg, #0ea5e9, #06b6d4); }
+    
+    .connector-line {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #1e40af, transparent);
+        z-index: -1;
+    }
+    
+    @media (max-width: 768px) {
+        .connector-line {
+            display: none;
+        }
+    }
+    
+    .info-banner {
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        border-left: 5px solid #1e40af;
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+    }
+    
+    .icon-1 { background: linear-gradient(135deg, #1e40af, #0ea5e9) !important; }
+    .icon-2 { background: linear-gradient(135deg, #f59e0b, #d97706) !important; }
+    .icon-3 { background: linear-gradient(135deg, #10b981, #059669) !important; }
+    .icon-4 { background: linear-gradient(135deg, #0ea5e9, #06b6d4) !important; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="process-hero text-center text-white">
+    <div class="container position-relative" style="z-index: 1;">
+        <div data-aos="fade-up">
+            <h1 class="display-3 fw-bold mb-3">Recruitment Process</h1>
+            <p class="lead mb-3" style="font-size: 1.3rem;">Required Documents for Overseas Recruitment</p>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Streamlined documentation for seamless hiring</p>
+        </div>
+    </div>
+</section>
+
+<!-- Introduction -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto" data-aos="fade-up">
+                <div class="info-banner">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="fas fa-info-circle fa-2x text-primary flex-shrink-0"></i>
+                        <div>
+                            <h5 class="text-primary mb-2">Important Information</h5>
+                            <p class="mb-0 text-muted">GLOBIS HR CONSULTANCY FZE LLC requires the provision of the following documents to facilitate approval from the Department of Overseas Employment and the pertinent government ministries of the respective home countries in which we are located.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Required Documents -->
+<section class="pb-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">Required Documents</h2>
+            <p class="lead mt-4">Essential paperwork for overseas recruitment</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Demand Letter -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
+                <div class="document-card">
+                    <div class="document-icon-wrapper icon-1">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <span class="document-badge badge-1">Document 1</span>
+                    <h3 class="mb-3">Demand Letter</h3>
+                    <p class="text-muted">A letter should be addressed to GLOBIS HR CONSULTANCY FZE LLC, specifying:</p>
+                    <ul class="requirement-list">
+                        <li><i class="fas fa-check-circle"></i><span>Number of workers required in each category</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Monthly salaries for each position</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Contract period</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Duty hours</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Air passage arrangements</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>All other benefits for workers</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Power of Attorney -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="document-card">
+                    <div class="document-icon-wrapper icon-2">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <span class="document-badge badge-2">Document 2</span>
+                    <h3 class="mb-3">Power of Attorney</h3>
+                    <p class="text-muted">An authorization letter to GLOBIS HR CONSULTANCY FZE LLC to:</p>
+                    <ul class="requirement-list">
+                        <li><i class="fas fa-check-circle"></i><span>Conduct manpower recruitment</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Handle all necessary formalities in arranging interviews</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Sign required documents and employment contracts</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Comply with home country regulations</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Arrange for passports and travel</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Facilitate travel to country of employment</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Offer Letter -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="document-card">
+                    <div class="document-icon-wrapper icon-3">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <span class="document-badge badge-3">Document 3</span>
+                    <h3 class="mb-3">Offer Letter</h3>
+                    <p class="text-muted">This is an official letter that carries all details of job employment offer, which includes:</p>
+                    <ul class="requirement-list">
+                        <li><i class="fas fa-check-circle"></i><span>Job description</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Salary package</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Accommodation details</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Medical insurance coverage</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Air ticket provisions</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Vacation entitlements</span></li>
+                        <li><i class="fas fa-check-circle"></i><span>Other benefits and allowances</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Agreement Letter -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="document-card">
+                    <div class="document-icon-wrapper icon-4">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <span class="document-badge badge-4">Document 4</span>
+                    <h3 class="mb-3">Agreement Letter</h3>
+                    <p class="text-muted">This document outlines the terms and conditions of service between the employer and GLOBIS HR CONSULTANCY FZE LLC.</p>
+                    <div class="mt-4 p-3" style="background: #f8fafc; border-radius: 12px; border-left: 4px solid #0ea5e9;">
+                        <p class="mb-0 text-muted">It establishes the formal business relationship and defines the responsibilities, obligations, and expectations of both parties throughout the recruitment process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Flow -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title">Our Recruitment Process</h2>
+            <p class="lead mt-4">A streamlined approach to finding the right talent</p>
+        </div>
+        <div class="row g-4 position-relative">
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                <div class="timeline-step step-1 text-center">
+                    <div class="step-number-circle">1</div>
+                    <h5 class="mb-3">Document Submission</h5>
+                    <p class="mb-0 text-muted">Submit all required documents to initiate the recruitment process</p>
+                    <div class="connector-line d-none d-lg-block"></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="timeline-step step-2 text-center">
+                    <div class="step-number-circle">2</div>
+                    <h5 class="mb-3">Candidate Search</h5>
+                    <p class="mb-0 text-muted">We search and screen candidates based on your requirements</p>
+                    <div class="connector-line d-none d-lg-block"></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="timeline-step step-3 text-center">
+                    <div class="step-number-circle">3</div>
+                    <h5 class="mb-3">Interview & Selection</h5>
+                    <p class="mb-0 text-muted">Arrange interviews and assist with candidate selection</p>
+                    <div class="connector-line d-none d-lg-block"></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="timeline-step step-4 text-center">
+                    <div class="step-number-circle">4</div>
+                    <h5 class="mb-3">Deployment</h5>
+                    <p class="mb-0 text-muted">Handle documentation, travel, and final deployment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%); color: white;">
+    <div class="container" data-aos="zoom-in">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">Ready to Start?</h2>
+                <p class="lead mb-4">Contact us today to begin your recruitment process with GLOBIS HR CONSULTANCY</p>
+                <a href="{% url 'contact' %}" class="btn btn-warning btn-lg me-3 px-5">
+                    <i class="fas fa-envelope me-2"></i>Contact Us
+                </a>
+                <a href="{% url 'services' %}" class="btn btn-outline-light btn-lg px-5">
+                    <i class="fas fa-briefcase me-2"></i>View Services
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
