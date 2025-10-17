@@ -2,13 +2,16 @@ databases:
   - name: globis_db
     databaseName: globis_db
     user: globis_user
+    plan: free
 
 services:
   - type: web
-    name: globis-hr
+    name: globis-hr-consultancy
     env: python
+    region: singapore
+    plan: free
     buildCommand: "./build.sh"
-    startCommand: "gunicorn yourproject.wsgi:application"
+    startCommand: "gunicorn globis_project.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -16,5 +19,9 @@ services:
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
       - key: WEB_CONCURRENCY
         value: 4
