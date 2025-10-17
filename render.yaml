@@ -1,0 +1,20 @@
+databases:
+  - name: globis_db
+    databaseName: globis_db
+    user: globis_user
+
+services:
+  - type: web
+    name: globis-hr
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn yourproject.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: globis_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
