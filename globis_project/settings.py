@@ -16,8 +16,8 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
-# Allow all Render.com subdomains
-if '.onrender.com' in os.environ.get('ALLOWED_HOSTS', ''):
+# Always allow Render.com subdomains in production
+if not DEBUG:
     ALLOWED_HOSTS.append('.onrender.com')
 
 # Application definition
