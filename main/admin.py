@@ -45,6 +45,6 @@ class GalleryImageAdmin(admin.ModelAdmin):
 
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
-    list_display = ('client_name', 'company', 'location', 'rating', 'order')
+    list_display = ('client_name', 'company', 'location', 'order')
     list_editable = ('order',)
     search_fields = ('client_name', 'company', 'location', 'message')

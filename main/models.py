@@ -110,7 +110,6 @@ class Testimonial(models.Model):
     company = models.CharField(max_length=200, blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
     message = models.TextField()
-    rating = models.PositiveSmallIntegerField(default=5)
     logo = models.ImageField(upload_to='testimonials/logos/', blank=True, null=True)
     color = models.CharField(
         max_length=100,
