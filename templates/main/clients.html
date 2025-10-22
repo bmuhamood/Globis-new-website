@@ -413,26 +413,6 @@
     </div>
 </section>
 
-    <!-- Clients Section -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-4">Our Clients</h2>
-            <div class="row g-4">
-                {% for client in clients %}
-                <div class="col-md-3 col-sm-6">
-                    <div class="client-card text-center p-3 shadow-sm rounded bg-white">
-                        {% if client.logo %}
-                            <img src="{{ client.logo.url }}" alt="{{ client.name }}" class="img-fluid" style="max-height: 100px; object-fit: contain;">
-                        {% else %}
-                            <div class="text-muted">{{ client.name }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
     <!-- Testimonials Section -->
     <section class="py-5">
         <div class="container">
@@ -450,10 +430,18 @@
                                     style="width: 80px; height: 80px; object-fit: contain; border-radius: 50%; background: #fff;">
                             </div>
                         {% else %}
-                            <div class="client-avatar mb-3"
-                                style="background: {{ t.color|default:'linear-gradient(135deg, #10b981, #059669)' }}; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff;">
-                                {{ t.client_name|slice:":1" }}
-                            </div>
+                        <div class="client-avatar mb-3"
+                            style="background: {{ t.color|default:'linear-gradient(135deg, #10b981, #059669)' }};
+                                    width: 80px;
+                                    height: 80px;
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 30px;
+                                    color: #fff;">
+                            {{ t.client_name|slice:":1" }}
+                        </div>
                         {% endif %}
                         
                         <p class="text-muted fst-italic mb-3">“{{ t.message }}”</p>
