@@ -413,68 +413,63 @@
     </div>
 </section>
 
-<!-- Testimonials -->
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h2 class="section-title">What Our Clients Say</h2>
-            <p class="lead mt-4">Success stories from satisfied clients</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0">
-                <div class="testimonial-card">
-                    <div class="client-avatar">H</div>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="mb-4 text-muted" style="font-style: italic;">"GLOBIS HR Consultancy provided us with exceptional recruitment services. Their understanding of our needs and quick turnaround time exceeded our expectations."</p>
-                    <div class="mt-auto">
-                        <h6 class="mb-1 fw-bold">Healthcare Facility</h6>
-                        <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Dubai, UAE</small>
+    <!-- Clients Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Our Clients</h2>
+            <div class="row g-4">
+                {% for client in clients %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="client-card text-center p-3 shadow-sm rounded bg-white">
+                        {% if client.logo %}
+                            <img src="{{ client.logo.url }}" alt="{{ client.name }}" class="img-fluid" style="max-height: 100px; object-fit: contain;">
+                        {% else %}
+                            <div class="text-muted">{{ client.name }}</div>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="testimonial-card">
-                    <div class="client-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">C</div>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="mb-4 text-muted" style="font-style: italic;">"Professional, reliable, and efficient. GLOBIS helped us build our team with highly qualified engineers. We highly recommend their services."</p>
-                    <div class="mt-auto">
-                        <h6 class="mb-1 fw-bold">Construction Company</h6>
-                        <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Nigeria</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="testimonial-card">
-                    <div class="client-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">H</div>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="mb-4 text-muted" style="font-style: italic;">"The quality of candidates presented to us was outstanding. GLOBIS truly understands the hospitality industry and our specific requirements."</p>
-                    <div class="mt-auto">
-                        <h6 class="mb-1 fw-bold">Hotel Chain</h6>
-                        <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Kenya</small>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">What Our Clients Say</h2>
+                <p class="lead mt-3">Stories of trust and satisfaction</p>
+            </div>
+            <div class="row g-4">
+                {% for t in testimonials %}
+                <div class="col-lg-4">
+                    <div class="testimonial-card text-center p-4 shadow-sm rounded bg-white">
+                        {% if t.logo %}
+                            <div class="client-avatar mb-3">
+                                <img src="{{ t.logo.url }}" alt="{{ t.company }}" 
+                                    style="width: 80px; height: 80px; object-fit: contain; border-radius: 50%; background: #fff;">
+                            </div>
+                        {% else %}
+                            <div class="client-avatar mb-3"
+                                style="background: {{ t.color|default:'linear-gradient(135deg, #10b981, #059669)' }}; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff;">
+                                {{ t.client_name|slice:":1" }}
+                            </div>
+                        {% endif %}
+                        
+                        <p class="text-muted fst-italic mb-3">“{{ t.message }}”</p>
+                        <div class="stars mb-2">
+                            {% for i in "12345" %}
+                                <i class="fas fa-star{% if forloop.counter > t.rating %}-o{% endif %}"></i>
+                            {% endfor %}
+                        </div>
+                        <h6 class="fw-bold">{{ t.company }}</h6>
+                        <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>{{ t.location }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
 <!-- CTA Section -->
 <section class="py-5" style="background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%); color: white;">

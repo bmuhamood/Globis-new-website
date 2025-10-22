@@ -104,3 +104,25 @@ class ContactInquiry(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.inquiry_type} - {self.created_at.strftime('%Y-%m-%d')}"
+    
+class Testimonial(models.Model):
+    client_name = models.CharField(max_length=200)
+    company = models.CharField(max_length=200, blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
+    message = models.TextField()
+    rating = models.PositiveSmallIntegerField(default=5)
+    logo = models.ImageField(upload_to='testimonials/logos/', blank=True, null=True)
+    color = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Example: linear-gradient(135deg, #10b981, #059669)"
+    )
+    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return f"{self.client_name} ({self.company})"

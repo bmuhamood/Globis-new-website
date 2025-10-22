@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import GalleryImage, Service, RecruitmentField, CoreValue, Client, Office, ContactInquiry
+from .models import GalleryImage, Service, RecruitmentField, CoreValue, Client, Office, ContactInquiry, Testimonial
 
 admin.site.site_header = "GLOBIS HR Consultancy Administration"
 admin.site.site_title = "GLOBIS HR Admin"
@@ -42,3 +42,9 @@ class GalleryImageAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'order', 'created_at']
     list_filter = ['category', 'created_at']
     list_editable = ['order']
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('client_name', 'company', 'location', 'rating', 'order')
+    list_editable = ('order',)
+    search_fields = ('client_name', 'company', 'location', 'message')

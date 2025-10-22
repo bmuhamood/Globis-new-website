@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import GalleryImage, Service, RecruitmentField, CoreValue, Client, Office, ContactInquiry
+from .models import GalleryImage, Service, RecruitmentField, CoreValue, Client, Office, ContactInquiry, Testimonial
 from .forms import ContactForm
 
 def home(request):
@@ -32,7 +32,11 @@ def process(request):
 
 def clients(request):
     clients = Client.objects.all()
-    return render(request, 'main/clients.html', {'clients': clients})
+    testimonials = Testimonial.objects.all()
+    return render(request, 'main/clients.html', {
+        'clients': clients,
+        'testimonials': testimonials,
+    })
 
 def contact(request):
     offices = Office.objects.all()
@@ -60,3 +64,4 @@ def gallery(request):
     
     context = {'images': images}
     return render(request, 'main/gallery.html', context)
+    
