@@ -265,7 +265,7 @@
             <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:0 }}00">
                 <div class="client-logo-card">
                     {% if client.logo %}
-                    <img src="{{ client.logo }}" alt="{{ client.name }}" 
+                    <img src="{{ client.logo.url }}" alt="{{ client.name }}"
                         onerror="this.onerror=null; this.src='https://via.placeholder.com/200x80?text={{ client.name|urlencode }}';">
                     {% else %}
                     <div>
