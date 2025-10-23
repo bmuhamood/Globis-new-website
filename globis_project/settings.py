@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
+    'cloudinary_storage',  # Must be before staticfiles
     'django.contrib.staticfiles',
     'cloudinary',
     'main',
@@ -106,12 +106,18 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Whitenoise configuration - simpler approach for production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+
+# Storage Configuration (Django 4.2+ recommended approach)
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # Cloudinary configuration
 import cloudinary
@@ -124,12 +130,6 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ''),
 }
 
-# Always use Cloudinary for media files (both dev and production)
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-# Media files
-MEDIA_URL = '/media/'
-# No need for MEDIA_ROOT when using Cloudinary
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
