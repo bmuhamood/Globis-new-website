@@ -5,7 +5,7 @@ echo "📦 Installing dependencies..."
 pip install -r requirements.txt
 
 echo "🗂️ Collecting static files..."
-python manage.py collectstatic --no-input --clear
+python manage.py collectstatic --no-input  # Remove --clear
 
 echo "🔄 Running migrations..."
 python manage.py migrate
