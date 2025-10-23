@@ -7,3 +7,4 @@ python-decouple
 Pillow
 cloudinary==1.41.0
 django-cloudinary-storage==0.3.0
+dj3-cloudinary-storage==0.0.6
