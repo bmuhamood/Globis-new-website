@@ -21,4 +21,4 @@ else:
     print('ℹ️ Admin user already exists, skipping creation.')
 EOF
 
-echo "✅ Build completed successfully!"
+echo "✅ Build completed successfully, thanks!"
