@@ -1,39 +1,36 @@
-from django.core.management.base import BaseCommand
+import os
+import secrets
+
 from django.contrib.auth import get_user_model
-from django.db import IntegrityError
+from django.core.management.base import BaseCommand
+
 
 class Command(BaseCommand):
-    help = 'Create admin user if not exists'
+    help = ('Create the admin user if missing. Credentials come from ADMIN_USERNAME / ADMIN_EMAIL / '
+            'ADMIN_PASSWORD. An existing user is never modified unless --reset-password is given.')
 
-    def handle(self, *args, **kwargs):
+    def add_arguments(self, parser):
+        parser.add_argument('--reset-password', action='store_true')
+
+    def handle(self, *args, **opts):
         User = get_user_model()
-        username = 'admin'
-        email = 'bbosa2009@gmail.com'
-        password = 'Globis@Admin2024'
-        
-        try:
-            # Check if user exists
-            if User.objects.filter(username=username).exists():
-                self.stdout.write(self.style.WARNING(f'⚠️ Admin user "{username}" already exists'))
-                # Update password in case it changed
-                user = User.objects.get(username=username)
+        username = os.environ.get('ADMIN_USERNAME', 'admin')
+        email = os.environ.get('ADMIN_EMAIL', 'info@globisconsultancy.com')
+        password = os.environ.get('ADMIN_PASSWORD', '')
+        user = User.objects.filter(username=username).first()
+        if user:
+            if opts['reset_password'] and password:
                 user.set_password(password)
-                user.is_staff = True
-                user.is_superuser = True
+                user.is_staff = user.is_superuser = True
                 user.save()
-                self.stdout.write(self.style.SUCCESS(f'✅ Admin password updated'))
+                self.stdout.write(self.style.SUCCESS('Admin password reset from ADMIN_PASSWORD.'))
             else:
-                # Create new superuser
-                User.objects.create_superuser(
-                    username=username,
-                    email=email,
-                    password=password
-                )
-                self.stdout.write(self.style.SUCCESS(f'✅ Admin user "{username}" created successfully!'))
-                self.stdout.write(self.style.SUCCESS(f'   Username: {username}'))
-                self.stdout.write(self.style.SUCCESS(f'   Email: {email}'))
-                
-        except IntegrityError as e:
-            self.stdout.write(self.style.ERROR(f'❌ Error creating admin: {e}'))
-        except Exception as e:
-            self.stdout.write(self.style.ERROR(f'❌ Unexpected error: {e}'))
+                self.stdout.write(f'Admin "{username}" already exists - left unchanged.')
+            return
+        generated = not password
+        password = password or secrets.token_urlsafe(12)
+        User.objects.create_superuser(username=username, email=email, password=password)
+        self.stdout.write(self.style.SUCCESS(f'Admin "{username}" created.'))
+        if generated:
+            self.stdout.write(self.style.WARNING(
+                f'No ADMIN_PASSWORD set. One-time generated password: {password}  (change it after logging in)'))

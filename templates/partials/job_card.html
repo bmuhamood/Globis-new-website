@@ -1,0 +1,23 @@
+{% load globis_tags %}
+<article class="card job rv">
+  <div class="job__img">
+    <img src="{% job_art job %}" alt="{{ job.title }}" loading="lazy" width="800" height="500">
+    <div class="job__badges">
+      {% if job.is_featured %}<span class="badge badge--hot"><i class="fas fa-fire"></i> Hot</span>{% endif %}
+      <span class="badge"><i class="fas fa-location-dot"></i> {{ job.city|default:job.country }}</span>
+    </div>
+  </div>
+  <div class="job__body">
+    <h3><a class="job__link" href="{{ job.get_absolute_url }}" aria-label="{{ job.title }} — view details"></a>{{ job.title }}</h3>
+    <div class="job__meta">
+      <span><i class="fas fa-briefcase"></i>{{ job.get_employment_type_display }}</span>
+      <span><i class="fas fa-users"></i>{{ job.vacancies }} opening{{ job.vacancies|pluralize }}</span>
+    </div>
+    {% if job.summary %}<p class="job__sum">{{ job.summary }}</p>{% endif %}
+    <div class="job__foot">
+      <span class="job__salary gold-text">{{ job.salary|default:"Competitive salary" }}</span>
+      <span style="display:flex;gap:8px;align-items:center"><button type="button" class="share" data-share data-path="{{ job.get_absolute_url }}" data-title="{{ job.title }}" data-text="{{ job.title }} – {{ job.location }}{% if job.salary %} – {{ job.salary }}{% endif %}. Apply with GLOBIS HR:" aria-label="Share {{ job.title }} on WhatsApp"><i class="fab fa-whatsapp"></i></button>
+      <a class="btn btn-primary btn-sm" href="{% url 'apply_job' job.slug %}">Apply now <i class="fas fa-arrow-right"></i></a></span>
+    </div>
+  </div>
+</article>

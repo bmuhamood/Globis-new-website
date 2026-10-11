@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
 set -o errexit
 
-echo "📦 Installing dependencies..."
+echo "Installing dependencies..."
 pip install -r requirements.txt
 
-echo "🗂️ Collecting static files..."
-python manage.py collectstatic --no-input  # Remove --clear
+echo "Collecting static files..."
+python manage.py collectstatic --no-input
 
-echo "🔄 Running migrations..."
-python manage.py migrate
+echo "Running migrations..."
+python manage.py migrate --no-input
 
-echo "👤 Checking admin user..."
-python manage.py shell <<EOF
-from django.contrib.auth import get_user_model
-User = get_user_model()
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'bbosa2009@gmail.com', 'Globis@Admin2024')
-    print('✅ Admin user created successfully!')
-else:
-    print('ℹ️ Admin user already exists, skipping creation.')
-EOF
+echo "Importing bundled media into database storage (only files not already stored)..."
+python manage.py import_media
 
-echo "✅ Build completed successfully, thanks!"
+echo "Seeding default content (never overwrites your edits)..."
+python manage.py load_initial_data
+
+echo "Ensuring admin user exists (set ADMIN_USERNAME / ADMIN_PASSWORD in Render)..."
+python manage.py createadmin
+
+echo "Build completed."

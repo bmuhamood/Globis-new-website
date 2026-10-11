@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load globis_tags %}
+{% block title %}Apply for a job in the UAE — GLOBIS HR{% endblock %}
+{% block meta_desc %}Apply for jobs in Dubai and the UAE in about two minutes. No account or login needed — add your phone number with country code and we will contact you.{% endblock %}
+{% block dock %}{% endblock %}
+{% block content %}
+<section class="page-head" style="padding-bottom:20px">
+  <div class="wrap">
+    <div class="crumbs"><a href="{% url 'home' %}">Home</a><span>/</span><a href="{% url 'jobs' %}">Jobs</a><span>/</span><span>Apply</span></div>
+    <h1>Apply in <span class="grad-text">two minutes</span></h1>
+    <p>No account. No login. Tell us who you are and which job you want — our recruitment team will call or WhatsApp you.</p>
+  </div>
+</section>
+
+<section class="section--tight" style="padding-bottom:clamp(40px,6vw,90px)">
+  <div class="wrap apply">
+    <aside class="sticky" style="display:grid;gap:18px">
+      {% if preselect %}
+      <div class="card">
+        <div class="job__img"><img src="{% job_art preselect %}" alt="{{ preselect.title }}"></div>
+        <div class="pad">
+          <span class="chip chip--gold"><i class="fas fa-bullseye"></i> You’re applying for</span>
+          <h3 style="margin-top:12px">{{ preselect.title }}</h3>
+          <div class="chips"><span class="chip"><i class="fas fa-location-dot"></i>{{ preselect.location }}</span><span class="chip"><i class="fas fa-coins"></i>{{ preselect.salary|default:"Competitive" }}</span></div>
+          <p style="margin-top:14px"><a href="{{ preselect.get_absolute_url }}" style="color:var(--cyan);font-weight:700">View full job details →</a></p>
+        </div>
+      </div>
+      {% endif %}
+      <div class="card pad">
+        <h3>Why apply with GLOBIS?</h3>
+        <ul class="promise" style="margin-top:8px">
+          <li><i class="fas fa-circle-check"></i>Applying is free</li>
+          <li><i class="fas fa-circle-check"></i>Main focus: jobs in the UAE</li>
+          <li><i class="fas fa-circle-check"></i>Our team contacts you directly by phone or WhatsApp</li>
+          <li><i class="fas fa-circle-check"></i>Your details are only seen by GLOBIS recruiters</li>
+        </ul>
+      </div>
+    </aside>
+
+    <div class="card pad">
+      <form id="applyForm" method="post" enctype="multipart/form-data" class="form" novalidate {% if form.is_bound %}data-has-post="1"{% endif %}>
+        {% csrf_token %}
+        <input type="hidden" name="form_token" value="{{ form_token }}">
+        <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        {% if form.non_field_errors %}<div class="alert" role="alert">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+
+        {% include 'partials/field.html' with f=form.job label='Which job do you want?' %}
+        {% include 'partials/field.html' with f=form.full_name req=1 %}
+
+        <div class="field {% if form.phone_number.errors or form.phone_country.errors %}has-error{% endif %}">
+          <label for="id_phone_number">Phone number <span class="req">*</span> <small style="font-weight:500;color:var(--faint)">— with country code</small></label>
+          <div class="phone">
+            {{ form.phone_country }}
+            {{ form.phone_number }}
+          </div>
+          <div class="hint">We will call this number: <b id="dialBadge" style="color:var(--cyan)">+256</b> followed by your number.</div>
+          {% for e in form.phone_number.errors %}<div class="err">{{ e }}</div>{% endfor %}
+          {% for e in form.phone_country.errors %}<div class="err">{{ e }}</div>{% endfor %}
+        </div>
+        <label class="check"><input type="checkbox" name="phone_is_whatsapp" {% if form.phone_is_whatsapp.value or not form.is_bound %}checked{% endif %}> This number is on WhatsApp</label>
+
+        {% include 'partials/field.html' with f=form.nationality req=1 %}
+
+        <details class="more" {% if form.email.errors or form.cv.errors or form.message.errors %}open{% endif %}>
+          <summary>More details <small style="color:var(--faint);font-weight:500">(optional — helps us place you faster)</small></summary>
+          <div class="more__body">
+            {% include 'partials/field.html' with f=form.email %}
+            <div class="row2">
+              {% include 'partials/field.html' with f=form.residence %}
+              {% include 'partials/field.html' with f=form.gender %}
+            </div>
+            <div class="row2">
+              {% include 'partials/field.html' with f=form.experience %}
+              {% include 'partials/field.html' with f=form.passport %}
+            </div>
+            <div class="field {% if form.cv.errors %}has-error{% endif %}">
+              <span class="lbl">CV / Resume <small style="font-weight:500;color:var(--faint)">(optional)</small></span>
+              <label class="drop" for="id_cv"><i class="fas fa-file-arrow-up"></i><span class="drop__t"><b id="cvName">Tap to attach your CV</b><small>PDF, Word or photo · max 5 MB</small></span>{{ form.cv }}</label>
+              {% for e in form.cv.errors %}<div class="err">{{ e }}</div>{% endfor %}
+            </div>
+            {% include 'partials/field.html' with f=form.message %}
+          </div>
+        </details>
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit"><i class="fas fa-paper-plane"></i> Submit application</button>
+        <p class="hint center">By applying you agree that GLOBIS HR may contact you about suitable jobs.</p>
+      </form>
+    </div>
+  </div>
+</section>
+{{ dial_map|json_script:"dialMap" }}
+{% endblock %}

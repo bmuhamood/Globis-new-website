@@ -1,0 +1,23 @@
+{% extends 'portal/shell.html' %}
+{% load globis_tags %}
+{% block title %}Jobs{% endblock %}
+{% block main %}
+<div class="p-top"><div><h1>Jobs</h1><p>Jobs you publish appear instantly on the website and in the apply form.</p></div><a class="btn btn-primary" href="{% url 'portal_job_new' %}"><i class="fas fa-plus"></i> Add job</a></div>
+{% for j in jobs %}
+<div class="p-job {% if not j.is_active %}is-off{% endif %}">
+  <img src="{% job_art j %}" alt="">
+  <div class="p-job__body">
+    <div><h3>{{ j.title }}</h3><small>{{ j.get_category_display }} · {{ j.location }} · {{ j.vacancies }} opening{{ j.vacancies|pluralize }}</small><br>
+      <span class="status {% if j.is_active %}status--placed{% else %}status--rejected{% endif %}">{% if j.is_active %}Live{% else %}Hidden{% endif %}</span>
+      {% if j.is_featured %}<span class="status status--new">Hot</span>{% endif %}
+      <a class="status status--contacted" href="{% url 'portal_applications' %}?job={{ j.pk }}">{{ j.n_apps }} application{{ j.n_apps|pluralize }}</a></div>
+    <div class="actions">
+      <a class="btn btn-ghost btn-sm" href="{{ j.get_absolute_url }}" target="_blank" rel="noopener">View</a>
+      <a class="btn btn-ghost btn-sm" href="{% url 'portal_job_edit' j.pk %}"><i class="fas fa-pen"></i> Edit</a>
+      <form class="mini-form" method="post" action="{% url 'portal_job_toggle' j.pk %}">{% csrf_token %}<button class="btn btn-ghost btn-sm" type="submit">{% if j.is_active %}Hide{% else %}Publish{% endif %}</button></form>
+      <form class="mini-form" method="post" action="{% url 'portal_job_delete' j.pk %}" onsubmit="return confirm('Delete this job? Applications will be kept.')">{% csrf_token %}<button class="btn btn-ghost btn-sm" type="submit" style="color:var(--red)"><i class="fas fa-trash"></i></button></form>
+    </div>
+  </div>
+</div>
+{% empty %}<div class="panel empty"><p>No jobs yet.</p><p style="margin-top:14px"><a class="btn btn-primary" href="{% url 'portal_job_new' %}">Add your first job</a></p></div>{% endfor %}
+{% endblock %}

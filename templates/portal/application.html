@@ -1,0 +1,39 @@
+{% extends 'portal/shell.html' %}
+{% block title %}{{ app.full_name }}{% endblock %}
+{% block main %}
+<div class="p-top"><div><a href="{% url 'portal_applications' %}" style="color:var(--muted)">← Applications</a><h1 style="margin-top:6px">{{ app.full_name }}</h1><p>{{ app.reference }} · received {{ app.created_at|date:"j M Y, H:i" }}</p></div>
+  <span class="status status--{{ app.status }}">{{ app.get_status_display }}</span></div>
+<div class="cols">
+  <div class="panel"><h2>Applicant</h2>
+    <div class="kv">
+      <div><span>Applied for</span><b>{{ app.display_job }}</b></div>
+      <div><span>Phone</span><b>{{ app.phone }}{% if app.phone_is_whatsapp %} <span class="chip chip--green" style="margin-left:6px">WhatsApp</span>{% endif %}</b></div>
+      <div><span>Email</span><b>{% if app.email %}<a href="mailto:{{ app.email }}">{{ app.email }}</a>{% else %}—{% endif %}</b></div>
+      <div><span>Nationality</span><b>{{ app.nationality }}</b></div>
+      <div><span>Lives in</span><b>{{ app.residence|default:"—" }}</b></div>
+      <div><span>Gender</span><b>{{ app.get_gender_display|default:"—" }}</b></div>
+      <div><span>Experience</span><b>{{ app.get_experience_display|default:"—" }}</b></div>
+      <div><span>Passport</span><b>{{ app.get_passport_display|default:"—" }}</b></div>
+      <div><span>CV</span><b>{% if app.cv %}<a class="btn btn-ghost btn-sm" href="{{ app.cv.url }}" target="_blank" rel="noopener"><i class="fas fa-file-arrow-down"></i> Open CV</a>{% else %}Not provided{% endif %}</b></div>
+    </div>
+    {% if app.message %}<p style="margin-top:14px;padding:14px;border-radius:12px;background:var(--chip-bg);white-space:pre-line">{{ app.message }}</p>{% endif %}
+    <div class="actions" style="margin-top:18px">
+      <a class="btn btn-wa" href="{{ app.whatsapp_link }}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a class="btn btn-primary" href="tel:{{ app.phone }}"><i class="fas fa-phone"></i> Call</a>
+      {% if app.email %}<a class="btn btn-ghost" href="mailto:{{ app.email }}"><i class="fas fa-envelope"></i> Email</a>{% endif %}
+    </div>
+  </div>
+  <div class="panel"><h2>Follow-up</h2>
+    <form method="post" class="form">{% csrf_token %}
+      <div class="field"><label for="{{ form.status.id_for_label }}">Status</label>{{ form.status }}</div>
+      <div class="field"><label for="{{ form.admin_notes.id_for_label }}">Internal notes</label>{{ form.admin_notes }}</div>
+      {% if app.contacted_at %}<p class="hint">First contacted {{ app.contacted_at|date:"j M Y, H:i" }}</p>{% endif %}
+      <button class="btn btn-primary" type="submit"><i class="fas fa-floppy-disk"></i> Save</button>
+    </form>
+    <div class="actions" style="margin-top:22px;justify-content:space-between">
+      <span>{% if older %}<a class="btn btn-ghost btn-sm" href="{% url 'portal_application' older.pk %}">← Older</a>{% endif %} {% if newer %}<a class="btn btn-ghost btn-sm" href="{% url 'portal_application' newer.pk %}">Newer →</a>{% endif %}</span>
+      <form method="post" class="mini-form" onsubmit="return confirm('Delete this application permanently?')">{% csrf_token %}<input type="hidden" name="action" value="delete"><button class="btn btn-ghost btn-sm" type="submit" style="color:var(--red)"><i class="fas fa-trash"></i> Delete</button></form>
+    </div>
+  </div>
+</div>
+{% endblock %}

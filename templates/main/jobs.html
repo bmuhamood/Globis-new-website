@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load globis_tags %}
+{% block title %}Jobs in the UAE — GLOBIS HR Consultancy{% endblock %}
+{% block meta_desc %}Browse {{ total }} open jobs in Dubai and the UAE — security, drivers, construction, hospitality, healthcare and more. Apply in minutes, no login.{% endblock %}
+{% block content %}
+{% include 'partials/page_head.html' with crumb='Jobs' title='Open jobs in <span class="grad-text">Dubai &amp; the UAE</span>' lead='Pick a role and apply in about two minutes. No account, no login — our team contacts you directly.' %}
+<section class="section--tight">
+  <div class="wrap">
+    <form class="filters" method="get" role="search">
+      <label class="search"><span class="sr-only">Search jobs</span><i class="fas fa-magnifying-glass"></i><input type="search" name="q" value="{{ q }}" placeholder="Search jobs or city…"></label>
+      {% if active_category %}<input type="hidden" name="category" value="{{ active_category }}">{% endif %}
+    </form>
+    <div class="filters">
+      <a class="pill {% if not active_category %}is-active{% endif %}" href="{% url 'jobs' %}{% if q %}?q={{ q|urlencode }}{% endif %}">All ({{ total }})</a>
+      {% for key, label in categories %}<a class="pill {% if active_category == key %}is-active{% endif %}" href="{% url 'jobs' %}?category={{ key }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ label }}</a>{% endfor %}
+    </div>
+    {% if jobs %}
+    <div class="jobs">{% for job in jobs %}{% include 'partials/job_card.html' %}{% endfor %}</div>
+    {% else %}
+    <div class="card pad center rv"><div class="ico" style="margin-inline:auto"><i class="fas fa-magnifying-glass"></i></div><h3>No jobs match your search</h3><p>Send a general application and we will contact you when a suitable role opens.</p><p style="margin-top:18px"><a class="btn btn-primary" href="{% url 'apply' %}">Send general application</a></p></div>
+    {% endif %}
+  </div>
+</section>
+{% include 'partials/cta.html' with cta_title='Can’t see your <span class="grad-text">job?</span>' cta_text='Send one general application. We will match you with suitable employers as new roles open.' cta_url='/apply/' cta_label='Apply anyway' cta2_url='/contact/' cta2_label='Ask our team' %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'portal/shell.html' %}
+{% block title %}Team{% endblock %}
+{% block main %}
+<div class="p-top"><div><h1>Team accounts</h1><p>People who can sign in to this portal and manage jobs, applications and content.</p></div></div>
+<div class="cols">
+  <div class="panel"><h2>Add a team member</h2>
+    <form method="post" class="form">{% csrf_token %}
+      {% if form.non_field_errors %}<div class="alert">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+      {% include 'partials/field.html' with f=form.username req=1 %}
+      {% include 'partials/field.html' with f=form.first_name %}
+      {% include 'partials/field.html' with f=form.email %}
+      <div class="field {% if form.password.errors %}has-error{% endif %}"><label for="{{ form.password.id_for_label }}">Password <span class="req">*</span></label>{{ form.password }}<div class="hint">{{ form.password.help_text }}</div>{% for e in form.password.errors %}<div class="err">{{ e }}</div>{% endfor %}</div>
+      <label class="check"><input type="checkbox" name="is_superuser"> {{ form.is_superuser.label }}</label>
+      <button class="btn btn-primary" type="submit"><i class="fas fa-user-plus"></i> Create account</button>
+    </form>
+  </div>
+  <div class="panel"><h2>Accounts</h2>
+    {% for u in users %}
+    <div class="kv"><div><span><b>{{ u.username }}</b>{% if u.first_name %} · {{ u.first_name }}{% endif %}<br>{% if u.is_superuser %}Main administrator{% else %}Staff{% endif %}{% if not u.is_active %} · <b style="color:var(--red)">Disabled</b>{% endif %}</span>
+      <b class="actions">
+        {% if u != request.user %}<form method="post" class="mini-form">{% csrf_token %}<input type="hidden" name="action" value="toggle"><input type="hidden" name="id" value="{{ u.pk }}"><button class="btn btn-ghost btn-sm">{% if u.is_active %}Disable{% else %}Enable{% endif %}</button></form>{% endif %}
+        <form method="post" class="mini-form" style="display:flex;gap:6px">{% csrf_token %}<input type="hidden" name="action" value="password"><input type="hidden" name="id" value="{{ u.pk }}"><input type="password" name="new_password" placeholder="New password" minlength="8" style="min-height:40px;width:140px;border-radius:99px;padding:0 14px;background:var(--surface);border:1px solid var(--line-2)"><button class="btn btn-ghost btn-sm">Set</button></form>
+      </b></div></div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

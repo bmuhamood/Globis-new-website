@@ -1,0 +1,19 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}Portal{% endblock %} · GLOBIS HR Portal</title>
+  <link rel="icon" type="image/png" href="{% static 'logo/globislogo.png' %}">
+  <script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('globis-theme');if(t==='light'||t==='dark')r.setAttribute('data-theme',t)}catch(e){}})();</script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{% static 'css/globis.css' %}?v=3">
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}?v=3">
+</head>
+<body class="portal">
+  <div class="aurora" aria-hidden="true"><div class="grid-bg"></div></div>
+  {% block body %}{% endblock %}
+  <script src="{% static 'js/globis.js' %}?v=3" defer></script>
+</body>
+</html>
