@@ -1,0 +1,18 @@
+{% extends 'portal/shell.html' %}
+{% block title %}Enquiries{% endblock %}
+{% block main %}
+<div class="p-top"><div><h1>Enquiries</h1><p>Messages sent from the Contact page.</p></div></div>
+{% for q in page %}
+<div class="panel" style="margin-bottom:14px;{% if not q.is_read %}border-color:rgba(246,185,74,.5){% endif %}">
+  <h2><span>{{ q.name }} <small style="color:var(--muted);font-weight:500">· {{ q.get_inquiry_type_display }}</small></span><small style="color:var(--faint)">{{ q.created_at|date:"j M Y, H:i" }}</small></h2>
+  <p style="white-space:pre-line">{{ q.message }}</p>
+  <div class="actions" style="margin-top:14px">
+    <a class="btn btn-ghost btn-sm" href="mailto:{{ q.email }}"><i class="fas fa-envelope"></i> {{ q.email }}</a>
+    {% if q.phone %}<a class="btn btn-ghost btn-sm" href="tel:{{ q.phone }}"><i class="fas fa-phone"></i> {{ q.phone }}</a>{% endif %}
+    {% if q.company %}<span class="chip">{{ q.company }}</span>{% endif %}
+    <form method="post" class="mini-form">{% csrf_token %}<input type="hidden" name="id" value="{{ q.pk }}"><input type="hidden" name="read" value="{% if q.is_read %}0{% else %}1{% endif %}"><button class="btn btn-ghost btn-sm" type="submit">{% if q.is_read %}Mark unread{% else %}Mark read{% endif %}</button></form>
+  </div>
+</div>
+{% empty %}<div class="panel empty">No enquiries yet.</div>{% endfor %}
+{% if page.paginator.num_pages > 1 %}<div class="pager">{% if page.has_previous %}<a class="btn btn-ghost btn-sm" href="?page={{ page.previous_page_number }}">← Prev</a>{% endif %}<span>Page {{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a class="btn btn-ghost btn-sm" href="?page={{ page.next_page_number }}">Next →</a>{% endif %}</div>{% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'portal/shell.html' %}
+{% load globis_tags %}
+{% block title %}Dashboard{% endblock %}
+{% block main %}
+<div class="p-top">
+  <div><h1>Dashboard</h1><p>Live overview of applications and jobs.</p></div>
+  <div class="actions"><a class="btn btn-primary" href="{% url 'portal_job_new' %}"><i class="fas fa-plus"></i> Add job</a><a class="btn btn-ghost" href="{% url 'portal_applications_csv' %}"><i class="fas fa-file-csv"></i> Export all</a></div>
+</div>
+<div class="kpis">
+  <div class="kpi is-hot"><i class="fas fa-bell"></i><small>New to contact</small><b>{{ new }}</b></div>
+  <div class="kpi"><i class="fas fa-calendar-day"></i><small>Today</small><b>{{ today }}</b></div>
+  <div class="kpi"><i class="fas fa-calendar-week"></i><small>Last 7 days</small><b>{{ week }}</b></div>
+  <div class="kpi"><i class="fas fa-users"></i><small>Total applicants</small><b>{{ total }}</b></div>
+  <div class="kpi"><i class="fas fa-briefcase"></i><small>Live jobs</small><b>{{ active_jobs }}</b></div>
+  <div class="kpi"><i class="fas fa-envelope"></i><small>Unread enquiries</small><b>{{ unread }}</b></div>
+</div>
+<div class="cols">
+  <div class="panel"><h2>Applications — last 14 days</h2>
+    <div class="bars" role="img" aria-label="Applications per day">{% for s in series %}<div><em>{{ s.n }}</em><span style="height:{{ s.pct }}%"></span><small>{{ s.day|date:"j" }}</small></div>{% endfor %}</div>
+  </div>
+  <div class="panel"><h2>Pipeline</h2>
+    {% for key, label, n in by_status %}<div class="hbar"><div class="hbar__t"><span><a href="{% url 'portal_applications' %}?status={{ key }}">{{ label }}</a></span><span>{{ n }}</span></div><div class="hbar__b"><i style="width:{% if total %}{% widthratio n total 100 %}{% else %}0{% endif %}%"></i></div></div>{% endfor %}
+  </div>
+</div>
+<div class="cols">
+  <div class="panel"><h2>Most applied jobs</h2>{% for r in top_jobs %}<div class="hbar"><div class="hbar__t"><span>{{ r.job_title|default:"General application" }}</span><span>{{ r.n }}</span></div><div class="hbar__b"><i style="width:{{ r.pct }}%"></i></div></div>{% empty %}<p class="empty">No applications yet.</p>{% endfor %}</div>
+  <div class="panel"><h2>Top nationalities</h2>{% for r in top_nat %}<div class="hbar"><div class="hbar__t"><span>{{ r.nationality }}</span><span>{{ r.n }}</span></div><div class="hbar__b"><i style="width:{{ r.pct }}%"></i></div></div>{% empty %}<p class="empty">No applications yet.</p>{% endfor %}</div>
+</div>
+<div class="panel"><h2>Latest applications <a class="btn btn-ghost btn-sm" href="{% url 'portal_applications' %}">View all</a></h2>
+  {% if recent %}
+  <table class="tbl"><thead><tr><th>Applicant</th><th>Job</th><th>Phone</th><th>Nationality</th><th>Status</th><th>Received</th></tr></thead><tbody>
+    {% for a in recent %}<tr>
+      <td class="t-main"><a class="row-link" href="{% url 'portal_application' a.pk %}">{{ a.full_name }}</a><small>{{ a.reference }}</small></td>
+      <td data-l="Job">{{ a.display_job }}</td><td data-l="Phone">{{ a.phone }}</td><td data-l="Nationality">{{ a.nationality }}</td>
+      <td data-l="Status"><span class="status status--{{ a.status }}">{{ a.get_status_display }}</span></td><td data-l="Received">{{ a.created_at|timesince }} ago</td></tr>{% endfor %}
+  </tbody></table>
+  {% else %}<p class="empty">No applications yet. Share the link <b>/apply/</b> with candidates.</p>{% endif %}
+</div>
+{% endblock %}

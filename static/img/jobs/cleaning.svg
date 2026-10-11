@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="cleaning">
+<defs>
+<linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(185 70% 14%)"/><stop offset="1" stop-color="hsl(150 75% 8%)"/></linearGradient>
+<radialGradient id="o" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="hsl(185 95% 60%)" stop-opacity=".55"/><stop offset="1" stop-color="hsl(185 95% 60%)" stop-opacity="0"/></radialGradient>
+<radialGradient id="p" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="hsl(150 95% 62%)" stop-opacity=".4"/><stop offset="1" stop-color="hsl(150 95% 62%)" stop-opacity="0"/></radialGradient>
+<linearGradient id="s" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(185 100% 78%)"/><stop offset="1" stop-color="hsl(150 100% 72%)"/></linearGradient>
+<pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#fff" stroke-opacity=".06"/></pattern>
+</defs>
+<rect width="800" height="500" fill="url(#b)"/><rect width="800" height="500" fill="url(#g)"/>
+<circle cx="560" cy="150" r="260" fill="url(#o)"/><circle cx="170" cy="420" r="230" fill="url(#p)"/>
+<g transform="translate(400 250)"><circle r="150" fill="#fff" fill-opacity=".04" stroke="#fff" stroke-opacity=".12"/><circle r="118" fill="none" stroke="#fff" stroke-opacity=".08" stroke-dasharray="3 9"/>
+<g transform="scale(1.12)" fill="none" stroke="url(#s)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M0,-80 C6,-30 30,-6 80,0 C30,6 6,30 0,80 C-6,30 -30,6 -80,0 C-30,-6 -6,-30 0,-80 Z"/><path d="M58,-62 v22 M47,-51 h22"/></g></g>
+<g fill="#fff" fill-opacity=".5"><circle cx="90" cy="90" r="3"/><circle cx="700" cy="410" r="3"/><circle cx="640" cy="70" r="2"/><circle cx="130" cy="330" r="2"/><circle cx="720" cy="240" r="2.5"/></g>
+</svg>

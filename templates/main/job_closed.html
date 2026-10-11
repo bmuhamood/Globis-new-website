@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Job closed — GLOBIS HR{% endblock %}
+{% block content %}
+<section class="oops"><div class="wrap">
+  <div class="ico" style="margin-inline:auto"><i class="fas fa-door-closed"></i></div>
+  <h2 style="font-size:clamp(1.8rem,5vw,3rem)">This job is no longer open</h2>
+  <p style="color:var(--muted);margin:14px auto 26px;max-width:32em">“{{ job.title }}” has been filled or closed. Send a general application and we will match you with a similar role.</p>
+  <div class="hero__cta" style="justify-content:center"><a class="btn btn-primary btn-lg" href="{% url 'apply' %}">General application</a><a class="btn btn-ghost btn-lg" href="{% url 'jobs' %}">See open jobs</a></div>
+</div></section>
+{% endblock %}

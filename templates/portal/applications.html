@@ -1,0 +1,34 @@
+{% extends 'portal/shell.html' %}
+{% block title %}Applications{% endblock %}
+{% block main %}
+<div class="p-top"><div><h1>Applications</h1><p>{{ count }} result{{ count|pluralize }}</p></div>
+  <a class="btn btn-ghost" href="{% url 'portal_applications_csv' %}?{{ qs }}"><i class="fas fa-file-csv"></i> Export CSV</a></div>
+<form class="fbar" method="get">
+  <input type="search" name="q" value="{{ f.q }}" placeholder="Search name, phone, ref…">
+  <select name="status" aria-label="Status"><option value="">All statuses</option>{% for k, l in statuses %}<option value="{{ k }}" {% if f.status == k %}selected{% endif %}>{{ l }}</option>{% endfor %}</select>
+  <select name="job" aria-label="Job"><option value="">All jobs</option><option value="general" {% if f.job == 'general' %}selected{% endif %}>General application</option>{% for j in jobs %}<option value="{{ j.pk }}" {% if f.job == j.pk|stringformat:"s" %}selected{% endif %}>{{ j.title }}</option>{% endfor %}</select>
+  <select name="nationality" aria-label="Nationality"><option value="">All nationalities</option>{% for n in nationalities %}<option value="{{ n }}" {% if f.nationality == n %}selected{% endif %}>{{ n }}</option>{% endfor %}</select>
+  <select name="cv" aria-label="CV"><option value="">CV: any</option><option value="1" {% if f.cv == '1' %}selected{% endif %}>Has CV</option></select>
+  <button class="btn btn-primary btn-sm" type="submit">Filter</button>
+</form>
+<div class="panel">
+  {% if page %}
+  <table class="tbl"><thead><tr><th>Applicant</th><th>Job</th><th>Phone</th><th>Nationality</th><th>Status</th><th>Received</th><th></th></tr></thead><tbody>
+    {% for a in page %}<tr>
+      <td class="t-main"><a class="row-link" href="{% url 'portal_application' a.pk %}">{{ a.full_name }}</a><small>{{ a.reference }}{% if a.cv %} · <i class="fas fa-paperclip"></i> CV{% endif %}</small></td>
+      <td data-l="Job">{{ a.display_job }}</td>
+      <td data-l="Phone">{{ a.phone }}</td>
+      <td data-l="Nationality">{{ a.nationality }}</td>
+      <td data-l="Status"><span class="status status--{{ a.status }}">{{ a.get_status_display }}</span></td>
+      <td data-l="Received">{{ a.created_at|date:"j M, H:i" }}</td>
+      <td data-l="Contact"><a class="btn btn-wa btn-sm" href="{{ a.whatsapp_link }}" target="_blank" rel="noopener" aria-label="WhatsApp {{ a.full_name }}"><i class="fab fa-whatsapp"></i></a> <a class="btn btn-ghost btn-sm" href="tel:{{ a.phone }}" aria-label="Call {{ a.full_name }}"><i class="fas fa-phone"></i></a></td>
+    </tr>{% endfor %}
+  </tbody></table>
+  <div class="pager">
+    {% if page.has_previous %}<a class="btn btn-ghost btn-sm" href="?{{ qs }}&page={{ page.previous_page_number }}">← Prev</a>{% endif %}
+    <span>Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+    {% if page.has_next %}<a class="btn btn-ghost btn-sm" href="?{{ qs }}&page={{ page.next_page_number }}">Next →</a>{% endif %}
+  </div>
+  {% else %}<p class="empty">No applications match.</p>{% endif %}
+</div>
+{% endblock %}

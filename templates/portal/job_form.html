@@ -1,0 +1,27 @@
+{% extends 'portal/shell.html' %}
+{% block title %}{% if job %}Edit job{% else %}New job{% endif %}{% endblock %}
+{% block main %}
+<div class="p-top"><div><a href="{% url 'portal_jobs' %}" style="color:var(--muted)">← Jobs</a><h1 style="margin-top:6px">{% if job %}Edit “{{ job.title }}”{% else %}Add a job{% endif %}</h1></div></div>
+<form method="post" enctype="multipart/form-data" class="panel form-grid" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="alert">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+  {% include 'partials/field.html' with f=form.title req=1 %}
+  <div class="row2">{% include 'partials/field.html' with f=form.category req=1 %}{% include 'partials/field.html' with f=form.employment_type %}</div>
+  <div class="row2">{% include 'partials/field.html' with f=form.country %}{% include 'partials/field.html' with f=form.city %}</div>
+  <div class="row2">{% include 'partials/field.html' with f=form.salary %}{% include 'partials/field.html' with f=form.vacancies %}</div>
+  <div class="row2">{% include 'partials/field.html' with f=form.working_hours %}{% include 'partials/field.html' with f=form.contract_length %}</div>
+  {% include 'partials/field.html' with f=form.summary %}
+  {% include 'partials/field.html' with f=form.description %}
+  <div class="row2">{% include 'partials/field.html' with f=form.requirements %}{% include 'partials/field.html' with f=form.benefits %}</div>
+  <div class="field">
+    <label for="{{ form.image.id_for_label }}">Job image</label>
+    {% if job and job.image %}<p class="hint" style="margin:0 0 8px">Current: {{ job.image.name }}</p>{% endif %}
+    {{ form.image }}<div class="hint">{{ form.image.help_text }}</div>{% for e in form.image.errors %}<div class="err">{{ e }}</div>{% endfor %}
+  </div>
+  {% include 'partials/field.html' with f=form.closing_date %}
+  <label class="check"><input type="checkbox" name="is_active" {% if form.is_active.value %}checked{% endif %}> Live on the website</label>
+  <label class="check"><input type="checkbox" name="is_featured" {% if form.is_featured.value %}checked{% endif %}> Mark as “Hot” (shown first)</label>
+  <div class="actions"><button class="btn btn-primary btn-lg" type="submit"><i class="fas fa-floppy-disk"></i> Save job</button><a class="btn btn-ghost btn-lg" href="{% url 'portal_jobs' %}">Cancel</a></div>
+</form>
+<datalist id="cities"><option value="Dubai"><option value="Abu Dhabi"><option value="Sharjah"><option value="Ajman"><option value="Ras Al Khaimah"><option value="Fujairah"><option value="Umm Al Quwain"><option value="Al Ain"></datalist>
+{% endblock %}

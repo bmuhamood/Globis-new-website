@@ -1,0 +1,21 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% block title %}Sign in{% endblock %}
+{% block body %}
+<div class="login">
+  <div class="card pad login__card">
+    <a class="brand" href="{% url 'home' %}" style="margin-bottom:22px"><span class="brand__mark"><img src="{% static 'logo/globislogo.png' %}" alt="" width="30" height="30"></span><span class="brand__text"><b>GLOBIS HR</b><small>Staff portal</small></span></a>
+    <h1 style="font-size:1.8rem">Welcome back</h1>
+    <p style="color:var(--muted);margin:6px 0 22px">Sign in to monitor applications and manage jobs.</p>
+    <form method="post" class="form" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+      {% if form.non_field_errors %}<div class="alert" role="alert">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+      <div class="field"><label for="id_username">Username</label><input type="text" name="username" id="id_username" autocomplete="username" autofocus required value="{{ form.username.value|default:'' }}"></div>
+      <div class="field"><label for="id_password">Password</label><input type="password" name="password" id="id_password" autocomplete="current-password" required style="width:100%;min-height:52px;padding:13px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--line-2);font-size:1rem"></div>
+      <button class="btn btn-primary btn-lg btn-block" type="submit"><i class="fas fa-lock-open"></i> Sign in</button>
+    </form>
+    <p class="hint center" style="margin-top:18px"><a href="{% url 'home' %}">← Back to website</a></p>
+  </div>
+</div>
+{% endblock %}

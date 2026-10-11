@@ -1,0 +1,24 @@
+{% extends 'portal/shell.html' %}
+{% block title %}{{ cfg.title }}{% endblock %}
+{% block main %}
+<div class="p-top"><div><a href="{% url 'portal_crud' kind %}" style="color:var(--muted)">← {{ cfg.title }}</a><h1 style="margin-top:6px">{% if obj %}Edit {{ cfg.one }}{% else %}{{ cfg.add }}{% endif %}</h1></div></div>
+<form method="post" enctype="multipart/form-data" class="panel form-grid" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="alert">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+  {% for f in form %}
+    {% if f.field.widget.input_type == 'checkbox' %}
+      <label class="check"><input type="checkbox" name="{{ f.html_name }}" {% if f.value %}checked{% endif %}> {{ f.label }}</label>
+    {% elif f.field.widget.input_type == 'file' %}
+      <div class="field {% if f.errors %}has-error{% endif %}">
+        <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+        {% if f.value %}<p class="hint" style="margin:0 0 8px">A file is already uploaded. Choose a new one to replace it.</p>{% endif %}
+        {{ f }}{% if f.help_text %}<div class="hint">{{ f.help_text }}</div>{% endif %}
+        {% for e in f.errors %}<div class="err">{{ e }}</div>{% endfor %}
+      </div>
+    {% else %}
+      {% include 'partials/field.html' with f=f req=f.field.required %}
+    {% endif %}
+  {% endfor %}
+  <div class="actions"><button class="btn btn-primary btn-lg" type="submit"><i class="fas fa-floppy-disk"></i> Save</button><a class="btn btn-ghost btn-lg" href="{% url 'portal_crud' kind %}">Cancel</a></div>
+</form>
+{% endblock %}

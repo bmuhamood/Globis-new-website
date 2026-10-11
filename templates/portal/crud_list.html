@@ -1,0 +1,19 @@
+{% extends 'portal/shell.html' %}
+{% block title %}{{ cfg.title }}{% endblock %}
+{% block main %}
+<div class="p-top"><div><h1>{{ cfg.title }}</h1><p>{{ cfg.help }}</p></div><a class="btn btn-primary" href="{% url 'portal_crud_new' kind %}"><i class="fas fa-plus"></i> {{ cfg.add }}</a></div>
+{% for r in rows %}
+<div class="p-job">
+  {% if r.thumb %}<img src="{{ r.thumb }}" alt="" loading="lazy" {% if kind == 'clients' or kind == 'testimonials' %}style="object-fit:contain;background:#fff;padding:6px"{% endif %}>{% else %}<div class="ico" style="margin:0;width:96px;height:64px;border-radius:12px"><i class="fas {{ cfg.icon }}"></i></div>{% endif %}
+  <div class="p-job__body">
+    <div><h3>{{ r.label }}</h3><small>{{ r.sub }}</small>
+      {% if kind == 'branches' %}<br>{% if r.obj.is_main %}<span class="status status--new">HQ</span> {% endif %}{% if r.obj.is_associate %}<span class="status">Associate</span> {% endif %}{% if r.obj.tiktok_url %}<span class="status status--contacted"><i class="fab fa-tiktok"></i>&nbsp;TikTok</span> {% endif %}{% if r.obj.facebook_url %}<span class="status status--contacted"><i class="fab fa-facebook-f"></i></span> {% endif %}{% if r.obj.instagram_url %}<span class="status status--contacted"><i class="fab fa-instagram"></i></span>{% endif %}{% if not r.obj.has_social and not r.obj.is_associate %}<span class="status status--rejected">No social links yet</span>{% endif %}{% endif %}
+    </div>
+    <div class="actions">
+      <a class="btn btn-ghost btn-sm" href="{% url 'portal_crud_edit' kind r.obj.pk %}"><i class="fas fa-pen"></i> Edit</a>
+      <form class="mini-form" method="post" action="{% url 'portal_crud_delete' kind r.obj.pk %}" onsubmit="return confirm('Delete this permanently?')">{% csrf_token %}<button class="btn btn-ghost btn-sm" type="submit" style="color:var(--red)"><i class="fas fa-trash"></i></button></form>
+    </div>
+  </div>
+</div>
+{% empty %}<div class="panel empty"><p>Nothing here yet.</p><p style="margin-top:14px"><a class="btn btn-primary" href="{% url 'portal_crud_new' kind %}">{{ cfg.add }}</a></p></div>{% endfor %}
+{% endblock %}
