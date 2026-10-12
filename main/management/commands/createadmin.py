@@ -7,10 +7,11 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
     help = ('Create the admin user if missing. Credentials come from ADMIN_USERNAME / ADMIN_EMAIL / '
-            'ADMIN_PASSWORD. An existing user is never modified unless --reset-password is given.')
+            'ADMIN_PASSWORD. If a password is set in the environment it is applied on every start, so the '
+            'environment variable is always the source of truth (use --keep-existing to skip that).')
 
     def add_arguments(self, parser):
-        parser.add_argument('--reset-password', action='store_true')
+        parser.add_argument('--keep-existing', action='store_true')
 
     def handle(self, *args, **opts):
         User = get_user_model()
@@ -19,11 +20,11 @@ class Command(BaseCommand):
         password = os.environ.get('ADMIN_PASSWORD') or os.environ.get('DJANGO_ADMIN_PASSWORD') or ''
         user = User.objects.filter(username=username).first()
         if user:
-            if opts['reset_password'] and password:
+            if password and not opts['keep_existing']:
                 user.set_password(password)
                 user.is_staff = user.is_superuser = True
                 user.save()
-                self.stdout.write(self.style.SUCCESS('Admin password reset from ADMIN_PASSWORD.'))
+                self.stdout.write(self.style.SUCCESS(f'Admin "{username}" password synced from the environment variable.'))
             else:
                 self.stdout.write(f'Admin "{username}" already exists - left unchanged.')
             return
