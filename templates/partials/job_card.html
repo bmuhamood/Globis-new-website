@@ -4,7 +4,7 @@
     <img src="{% job_art job %}" alt="{{ job.title }}" loading="lazy" width="800" height="500">
     <div class="job__badges">
       {% if job.is_featured %}<span class="badge badge--hot"><i class="fas fa-fire"></i> Hot</span>{% endif %}
-      <span class="badge"><i class="fas fa-location-dot"></i> {{ job.city|default:job.country }}</span>
+      <span class="badge"><i class="fas fa-location-dot"></i> {{ job.location }}</span>
     </div>
   </div>
   <div class="job__body">

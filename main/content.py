@@ -1,9 +1,9 @@
 """Default site content. Used to seed the database and as a fallback so pages are never empty."""
 
 SERVICES = [
-    ('Manpower Recruitment', 'Blue-collar and white-collar recruitment for every industry, sourced across Africa and South Asia and deployed to the UAE and the wider Gulf.', 'fa-users'),
+    ('Manpower Recruitment', 'Blue-collar and white-collar recruitment for every industry, sourced from many countries and placed with employers in the UAE, the wider Gulf, Europe and beyond.', 'fa-users'),
     ('Tourism', 'Professional tourism services and travel arrangements for business and leisure.', 'fa-plane-departure'),
-    ('Trade', 'Facilitating international trade and business development between Africa and the Middle East.', 'fa-handshake'),
+    ('Trade', 'Facilitating international trade and business development from our Dubai headquarters to Africa, the Middle East and the rest of the world.', 'fa-handshake'),
     ('Consultation', 'HR strategy, workforce planning and talent management advice from experienced consultants.', 'fa-lightbulb'),
     ('Training', 'Customised skills, technical and soft-skills training that prepares workers for overseas employment.', 'fa-chalkboard-teacher'),
     ('Airline Ticketing', 'Competitive airline ticketing and reservations, including group bookings, with 24/7 support.', 'fa-ticket-alt'),

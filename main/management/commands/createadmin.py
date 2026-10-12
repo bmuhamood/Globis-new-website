@@ -14,9 +14,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **opts):
         User = get_user_model()
-        username = os.environ.get('ADMIN_USERNAME', 'admin')
-        email = os.environ.get('ADMIN_EMAIL', 'info@globisconsultancy.com')
-        password = os.environ.get('ADMIN_PASSWORD', '')
+        username = os.environ.get('ADMIN_USERNAME') or os.environ.get('DJANGO_ADMIN_USERNAME') or 'admin'
+        email = os.environ.get('ADMIN_EMAIL') or os.environ.get('DJANGO_ADMIN_EMAIL') or 'info@globisconsultancy.com'
+        password = os.environ.get('ADMIN_PASSWORD') or os.environ.get('DJANGO_ADMIN_PASSWORD') or ''
         user = User.objects.filter(username=username).first()
         if user:
             if opts['reset_password'] and password:

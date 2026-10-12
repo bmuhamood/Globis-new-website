@@ -219,6 +219,7 @@ class JobForm(forms.ModelForm):
             'requirements': forms.Textarea(attrs={'rows': 5, 'placeholder': 'One per line'}),
             'benefits': forms.Textarea(attrs={'rows': 4, 'placeholder': 'One per line'}),
             'closing_date': forms.DateInput(attrs={'type': 'date'}),
+            'country': forms.TextInput(attrs={'list': 'countries', 'placeholder': 'United Arab Emirates, Saudi Arabia, Oman, Europe…'}),
             'city': forms.TextInput(attrs={'list': 'cities', 'placeholder': 'Dubai, Abu Dhabi, Sharjah…'}),
             'image': forms.FileInput(attrs={'accept': 'image/*'}),
         }

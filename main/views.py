@@ -126,13 +126,17 @@ def jobs(request):
     qs = open_jobs()
     cat = request.GET.get('category', '')
     q = request.GET.get('q', '').strip()
+    ctry = request.GET.get('country', '').strip()
     if cat in dict(Job.CATEGORIES):
         qs = qs.filter(category=cat)
+    if ctry:
+        qs = qs.filter(country__iexact=ctry)
     if q:
-        qs = qs.filter(Q(title__icontains=q) | Q(city__icontains=q) | Q(summary__icontains=q))
+        qs = qs.filter(Q(title__icontains=q) | Q(city__icontains=q) | Q(country__icontains=q) | Q(summary__icontains=q))
     used = set(open_jobs().values_list('category', flat=True))
     return render(request, 'main/jobs.html', {
-        'jobs': qs, 'q': q, 'active_category': cat,
+        'jobs': qs, 'q': q, 'active_category': cat, 'active_country': ctry,
+        'countries': sorted(set(open_jobs().values_list('country', flat=True))),
         'categories': [(k, v) for k, v in Job.CATEGORIES if k in used],
         'total': open_jobs().count(),
     })

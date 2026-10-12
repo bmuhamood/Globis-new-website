@@ -4,22 +4,22 @@
 <section class="hero">
   <div class="wrap hero__grid">
     <div>
-      <span class="eyebrow"><span class="dot"></span> Now hiring · {{ job_count }} open role{{ job_count|pluralize }} in the UAE</span>
-      <h1>Africa’s talent.<br><span class="grad-text">The Gulf’s next chapter.</span></h1>
-      <p class="lead">GLOBIS HR Consultancy connects skilled and semi-skilled workers across Africa and South Asia with leading employers in Dubai and the UAE. Choose a job, send your details, and our team calls you — <strong>no account, no login.</strong></p>
+      <span class="eyebrow"><span class="dot"></span> Now hiring · {{ job_count }} open role{{ job_count|pluralize }} · UAE &amp; worldwide</span>
+      <h1>Headquartered in Dubai,<br><span class="grad-text">hiring worldwide.</span></h1>
+      <p class="lead">GLOBIS HR Consultancy is headquartered in Dubai, UAE, and connects skilled and semi-skilled workers from many countries with trusted employers — mainly in the UAE, and also in Saudi Arabia, Oman, Europe and beyond. Choose a job, send your details, and our team calls you — <strong>no account, no login.</strong></p>
       <div class="hero__cta">
         <a class="btn btn-primary btn-lg" href="{% url 'apply' %}"><i class="fas fa-paper-plane"></i> Apply in 2 minutes</a>
         <a class="btn btn-ghost btn-lg" href="{% url 'jobs' %}">Browse jobs <i class="fas fa-arrow-right"></i></a>
       </div>
       <div class="hero__meta">
-        <span><i class="fas fa-circle-check"></i> Free to apply</span>
+        <span><i class="fas fa-circle-check"></i> No application fee</span>
         <span><i class="fas fa-mobile-screen"></i> Works on any phone</span>
         <span><i class="fas fa-building"></i> Dubai headquarters</span>
       </div>
     </div>
     <div class="globe" aria-hidden="true">
       <canvas id="globe"></canvas>
-      <div class="globe__tag globe__tag--a"><i class="fas fa-plane-departure"></i> Kampala · Lagos · Accra · Nairobi</div>
+      <div class="globe__tag globe__tag--a"><i class="fas fa-plane-departure"></i> Kampala · Mombasa · Lagos · Accra</div>
       <div class="globe__tag globe__tag--b"><i class="fas fa-location-dot"></i> Dubai, UAE</div>
     </div>
   </div>
@@ -39,7 +39,7 @@
 <section class="section">
   <div class="wrap">
     <div class="head head--row rv">
-      <div><span class="kicker">Open positions</span><h2>Hiring <span class="grad-text">now</span></h2><p>Real roles with real UAE employers. Pick one and apply — it takes about two minutes.</p></div>
+      <div><span class="kicker">Open positions</span><h2>Hiring <span class="grad-text">now</span></h2><p>Real roles with real employers — mainly in the UAE, and worldwide. Pick one and apply — it takes about two minutes.</p></div>
       <a class="btn btn-ghost" href="{% url 'jobs' %}">View all jobs <i class="fas fa-arrow-right"></i></a>
     </div>
     {% if featured_jobs %}
@@ -64,7 +64,7 @@
 
 <section class="section">
   <div class="wrap">
-    <div class="head rv"><span class="kicker">What we do</span><h2>Comprehensive <span class="grad-text">HR &amp; business solutions</span></h2><p>GLOBIS HR CONSULTANCY FZE LLC provides local and global hiring solutions, sourcing and placing skilled manpower from across the African continent.</p></div>
+    <div class="head rv"><span class="kicker">What we do</span><h2>Comprehensive <span class="grad-text">HR &amp; business solutions</span></h2><p>GLOBIS HR CONSULTANCY FZE LLC provides local and global hiring solutions, sourcing and placing skilled manpower from many countries, for employers in the UAE and worldwide.</p></div>
     <div class="bento">
       {% for s in services %}
       <div class="card pad rv {% if forloop.first %}span-2{% endif %}">

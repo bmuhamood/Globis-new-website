@@ -1,4 +1,4 @@
-# GLOBIS HR website — deployment & admin guide
+# GLOBIS HR Consultancy website — deployment & admin guide
 
 ## What changed
 - **Fixed 500 errors** on /clients/ and /gallery/ (Cloudinary storage crashed pages when not configured). Image URLs can no longer crash a page.

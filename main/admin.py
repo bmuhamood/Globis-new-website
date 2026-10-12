@@ -3,8 +3,8 @@ from django.contrib import admin
 from .models import (Client, ContactInquiry, CoreValue, GalleryImage, Job, JobApplication, Office,
                      RecruitmentField, Service, StoredFile, Testimonial)
 
-admin.site.site_header = "GLOBIS HR Administration"
-admin.site.site_title = "GLOBIS HR Admin"
+admin.site.site_header = "GLOBIS HR Consultancy Administration"
+admin.site.site_title = "GLOBIS HR Consultancy Admin"
 admin.site.index_title = "Site content"
 
 

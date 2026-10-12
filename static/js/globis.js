@@ -1,4 +1,4 @@
-/* GLOBIS HR — site behaviour. Everything degrades gracefully without JS. */
+/* GLOBIS HR Consultancy — site behaviour. Everything degrades gracefully without JS. */
 (function () {
   'use strict';
   var root = document.documentElement;
@@ -29,6 +29,8 @@
     if (burger) { burger.setAttribute('aria-expanded', open); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); }
   }
   if (burger) burger.addEventListener('click', function () { setMenu(!document.body.classList.contains('menu-open')); });
+  $$('.dd__btn').forEach(function (b) { b.addEventListener('click', function (e) { e.stopPropagation(); var d = b.parentNode, o = !d.classList.contains('open'); $$('.dd').forEach(function (x) { x.classList.remove('open'); x.firstElementChild.setAttribute('aria-expanded', 'false'); }); if (o) { d.classList.add('open'); b.setAttribute('aria-expanded', 'true'); } }); });
+  document.addEventListener('click', function () { $$('.dd').forEach(function (x) { x.classList.remove('open'); }); });
   $$('.drawer a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setMenu(false); closeLightbox(); } });
   window.addEventListener('resize', function () { if (window.innerWidth >= 1240) setMenu(false); });
@@ -142,14 +144,19 @@
     function col(n, fb) { return (css.getPropertyValue(n) || fb).trim() || fb; }
     var D = Math.PI / 180;
     var cities = [
-      { n: 'Kampala', la: 0.35, lo: 32.58, big: 1 }, { n: 'Nairobi', la: -1.29, lo: 36.82 }, { n: 'Lagos', la: 6.52, lo: 3.38 },
+      { n: 'Kampala', la: 0.35, lo: 32.58 }, { n: 'Mombasa', la: -4.04, lo: 39.67 }, { n: 'Lagos', la: 6.52, lo: 3.38 },
       { n: 'Accra', la: 5.6, lo: -0.19 }, { n: 'Addis', la: 9.03, lo: 38.74 }, { n: 'Kigali', la: -1.95, lo: 30.06 },
-      { n: 'Dubai', la: 25.2, lo: 55.27, hub: 1 }, { n: 'Delhi', la: 28.61, lo: 77.21 }, { n: 'Dhaka', la: 23.81, lo: 90.41 }, { n: 'Kathmandu', la: 27.7, lo: 85.32 }, { n: 'Karachi', la: 24.86, lo: 67.0 }
+      { n: 'Dubai', la: 25.2, lo: 55.27, hub: 1 }, { n: 'Delhi', la: 28.61, lo: 77.21 }, { n: 'Dhaka', la: 23.81, lo: 90.41 }, { n: 'Manila', la: 14.6, lo: 120.98 },
+      { n: 'Riyadh', la: 24.71, lo: 46.68 }, { n: 'Muscat', la: 23.59, lo: 58.41 }, { n: 'Istanbul', la: 41.01, lo: 28.98 }, { n: 'London', la: 51.5, lo: -0.12 }
     ];
+    var labelled = { Dubai: 1, Kampala: 1, Lagos: 1, Mombasa: 1, London: 1, Manila: 1 };
     var hub = cities.filter(function (c) { return c.hub; })[0];
-    var arcs = cities.filter(function (c) { return !c.hub; }).map(function (c, i) { return { a: c, b: hub, ph: i * .13 }; });
-    var pts = []; var N = 1100, g = Math.PI * (3 - Math.sqrt(5));
+    var arcs = cities.filter(function (c) { return !c.hub; }).map(function (c, i) { return { a: c, b: hub, ph: i * .09 }; });
+    var pts = []; var N = 700, g = Math.PI * (3 - Math.sqrt(5));
     for (var i = 0; i < N; i++) { var y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = g * i; pts.push([Math.cos(th) * r, y, Math.sin(th) * r]); }
+    // world map: land dots (data from static/js/world-land.js, Natural Earth, public domain)
+    var land = [];
+    (window.GLOBIS_LAND || []).forEach(function (row) { var la = row[0]; row[1].forEach(function (lo) { land.push(ll(la, lo)); }); });
 
     function ll(la, lo) { var p = la * D, l = lo * D; return [Math.cos(p) * Math.sin(l), Math.sin(p), Math.cos(p) * Math.cos(l)]; }
     function rot(v, yaw, pitch) {
@@ -182,9 +189,13 @@
       ctx.lineWidth = .6; ctx.strokeStyle = 'rgba(120,170,255,.16)';
       for (var lo = -180; lo < 180; lo += 20) { ctx.beginPath(); var on = false; for (var la = -90; la <= 90; la += 5) { var p = proj(ll(la, lo), yaw, pitch); if (p.z > 0) { on ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y); on = true; } else on = false; } ctx.stroke(); }
       for (var la2 = -60; la2 <= 60; la2 += 20) { ctx.beginPath(); var on2 = false; for (var lo2 = -180; lo2 <= 180; lo2 += 5) { var p2 = proj(ll(la2, lo2), yaw, pitch); if (p2.z > 0) { on2 ? ctx.lineTo(p2.x, p2.y) : ctx.moveTo(p2.x, p2.y); on2 = true; } else on2 = false; } ctx.stroke(); }
-      // dots
+      // ocean dots (faint)
       ctx.fillStyle = cyan;
-      for (var i = 0; i < pts.length; i++) { var q = rot(pts[i], yaw, pitch); if (q[2] > 0) { ctx.globalAlpha = .12 + q[2] * .5; ctx.fillRect(S / 2 + q[0] * R, S / 2 - q[1] * R, 1.6, 1.6); } }
+      for (var i = 0; i < pts.length; i++) { var q = rot(pts[i], yaw, pitch); if (q[2] > 0) { ctx.globalAlpha = .05 + q[2] * .14; ctx.fillRect(S / 2 + q[0] * R, S / 2 - q[1] * R, 1.2, 1.2); } }
+      // land dots (the world map)
+      var ds = Math.max(1.5, S * .0042);
+      ctx.fillStyle = land.length ? cyan : 'transparent';
+      for (var j = 0; j < land.length; j++) { var w = rot(land[j], yaw, pitch); if (w[2] > 0) { ctx.globalAlpha = .28 + w[2] * .62; ctx.fillRect(S / 2 + w[0] * R - ds / 2, S / 2 - w[1] * R - ds / 2, ds, ds); } }
       ctx.globalAlpha = 1;
       // arcs
       arcs.forEach(function (a) {
@@ -202,7 +213,7 @@
         ctx.fillStyle = c.hub ? gold : cyan; ctx.shadowColor = c.hub ? gold : cyan; ctx.shadowBlur = 14;
         ctx.beginPath(); ctx.arc(p.x, p.y, rad, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
         ctx.strokeStyle = c.hub ? gold : cyan; ctx.globalAlpha = .55 * (1 - pulse); ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(p.x, p.y, rad + 3 + pulse * 11, 0, 7); ctx.stroke(); ctx.globalAlpha = 1;
-        if (c.hub || c.n === 'Kampala' || c.n === 'Lagos' || c.n === 'Delhi') { ctx.fillStyle = text; ctx.globalAlpha = .9; ctx.font = (c.hub ? '700 ' : '600 ') + Math.max(10, S * .026) + 'px Manrope, system-ui, sans-serif'; ctx.fillText(c.n, p.x + rad + 5, p.y + 3.5); ctx.globalAlpha = 1; }
+        if (labelled[c.n]) { ctx.fillStyle = text; ctx.globalAlpha = .9; ctx.font = (c.hub ? '700 ' : '600 ') + Math.max(10, S * .026) + 'px Manrope, system-ui, sans-serif'; ctx.fillText(c.n, p.x + rad + 5, p.y + 3.5); ctx.globalAlpha = 1; }
       });
     }
     var looping = false;

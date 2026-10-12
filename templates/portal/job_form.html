@@ -23,5 +23,6 @@
   <label class="check"><input type="checkbox" name="is_featured" {% if form.is_featured.value %}checked{% endif %}> Mark as “Hot” (shown first)</label>
   <div class="actions"><button class="btn btn-primary btn-lg" type="submit"><i class="fas fa-floppy-disk"></i> Save job</button><a class="btn btn-ghost btn-lg" href="{% url 'portal_jobs' %}">Cancel</a></div>
 </form>
+<datalist id="countries"><option value="United Arab Emirates"><option value="Saudi Arabia"><option value="Oman"><option value="Qatar"><option value="Kuwait"><option value="Bahrain"><option value="United Kingdom"><option value="Germany"><option value="Poland"><option value="Romania"><option value="Turkey"><option value="Canada"><option value="Other"></datalist>
 <datalist id="cities"><option value="Dubai"><option value="Abu Dhabi"><option value="Sharjah"><option value="Ajman"><option value="Ras Al Khaimah"><option value="Fujairah"><option value="Umm Al Quwain"><option value="Al Ain"></datalist>
 {% endblock %}

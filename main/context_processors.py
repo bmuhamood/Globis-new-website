@@ -12,6 +12,6 @@ def site(request):
         'COMPANY_PHONE': settings.COMPANY_PHONE,
         'COMPANY_WHATSAPP': settings.COMPANY_WHATSAPP,
         'COMPANY_EMAIL': settings.COMPANY_EMAIL,
-        'WA_DEFAULT_TEXT': 'Hello GLOBIS HR, I would like to make an inquiry about jobs / your services.',
+        'WA_DEFAULT_TEXT': 'Hello GLOBIS HR Consultancy, I would like to make an inquiry about jobs / your services.',
         'branches': branches,
     }

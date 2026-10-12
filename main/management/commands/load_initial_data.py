@@ -22,8 +22,9 @@ class Command(BaseCommand):
             _, c = Office.objects.get_or_create(company_name=company, defaults={
                 'country': country, 'address': address, 'is_main': main, 'order': i})
             n += c
-        # Sample jobs only when there are none yet (admin can edit/delete them freely)
-        if not Job.objects.exists():
+        # Demo jobs only when explicitly requested (SEED_SAMPLE_JOBS=1) — real jobs are added in the portal
+        import os
+        if os.environ.get('SEED_SAMPLE_JOBS') == '1' and not Job.objects.exists():
             for (title, cat, city, typ, salary, vac, summary, desc, req, ben, feat) in content.JOBS:
                 Job.objects.create(title=title, category=cat, city=city, employment_type=typ, salary=salary,
                                    vacancies=vac, summary=summary, description=desc, requirements=req,

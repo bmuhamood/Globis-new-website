@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
 {% load globis_tags %}
-{% block title %}Jobs in the UAE — GLOBIS HR Consultancy{% endblock %}
-{% block meta_desc %}Browse {{ total }} open jobs in Dubai and the UAE — security, drivers, construction, hospitality, healthcare and more. Apply in minutes, no login.{% endblock %}
+{% block title %}Jobs in the UAE &amp; worldwide — GLOBIS HR Consultancy{% endblock %}
+{% block meta_desc %}Browse {{ total }} open jobs in the UAE and worldwide — security, drivers, construction, hospitality, healthcare and more. Apply in minutes, no login.{% endblock %}
 {% block content %}
-{% include 'partials/page_head.html' with crumb='Jobs' title='Open jobs in <span class="grad-text">Dubai &amp; the UAE</span>' lead='Pick a role and apply in about two minutes. No account, no login — our team contacts you directly.' %}
+{% include 'partials/page_head.html' with crumb='Jobs' title='Open jobs <span class="grad-text">in the UAE &amp; worldwide</span>' lead='Pick a role and apply in about two minutes. No account, no login — our team contacts you directly.' %}
 <section class="section--tight">
   <div class="wrap">
     <form class="filters" method="get" role="search">
-      <label class="search"><span class="sr-only">Search jobs</span><i class="fas fa-magnifying-glass"></i><input type="search" name="q" value="{{ q }}" placeholder="Search jobs or city…"></label>
+      <label class="search"><span class="sr-only">Search jobs</span><i class="fas fa-magnifying-glass"></i><input type="search" name="q" value="{{ q }}" placeholder="Search jobs, city or country…"></label>
       {% if active_category %}<input type="hidden" name="category" value="{{ active_category }}">{% endif %}
     </form>
     <div class="filters">
       <a class="pill {% if not active_category %}is-active{% endif %}" href="{% url 'jobs' %}{% if q %}?q={{ q|urlencode }}{% endif %}">All ({{ total }})</a>
       {% for key, label in categories %}<a class="pill {% if active_category == key %}is-active{% endif %}" href="{% url 'jobs' %}?category={{ key }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ label }}</a>{% endfor %}
     </div>
+    {% if countries|length > 1 %}
+    <div class="filters"><span class="pill" style="pointer-events:none;opacity:.7"><i class="fas fa-earth-africa"></i>&nbsp;Country</span>
+      <a class="pill {% if not active_country %}is-active{% endif %}" href="{% url 'jobs' %}{% if active_category %}?category={{ active_category }}{% endif %}">Any</a>
+      {% for c in countries %}<a class="pill {% if active_country == c %}is-active{% endif %}" href="{% url 'jobs' %}?country={{ c|urlencode }}{% if active_category %}&category={{ active_category }}{% endif %}">{{ c }}</a>{% endfor %}
+    </div>
+    {% endif %}
     {% if jobs %}
     <div class="jobs">{% for job in jobs %}{% include 'partials/job_card.html' %}{% endfor %}</div>
     {% else %}

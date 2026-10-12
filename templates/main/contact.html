@@ -36,7 +36,7 @@
 </section>
 <section class="section">
   <div class="wrap">
-    <div class="head rv"><span class="kicker">Locations</span><h2>Our <span class="grad-text">global offices</span></h2><p>Serving clients across Africa, the Middle East and South Asia.</p></div>
+    <div class="head rv"><span class="kicker">Locations</span><h2>Our <span class="grad-text">global offices</span></h2><p>Headquartered in Dubai, UAE — serving candidates and employers worldwide.</p></div>
     <div class="grid grid--3">
       {% for o in offices %}<div class="card pad office rv {% if o.is_main %}office--main{% endif %}"><span class="tag">{% if o.is_main %}Headquarters{% else %}Regional office{% endif %}</span><h3>{{ o.country }}</h3><strong style="font-size:.9rem">{{ o.company_name }}</strong><p>{{ o.address }}</p>{% if o.has_social %}<div style="margin-top:12px">{% include 'partials/social.html' %}</div>{% endif %}</div>{% endfor %}
       <div class="card pad office rv"><span class="tag" style="color:var(--cyan)">Associate offices</span><h3>Expanding network</h3><p>India · Nepal · Pakistan · Bangladesh</p></div>

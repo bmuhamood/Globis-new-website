@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load globis_tags %}
-{% block title %}{{ job.title }} — {{ job.location }} | GLOBIS HR{% endblock %}
+{% block title %}{{ job.title }} — {{ job.location }} | GLOBIS HR Consultancy{% endblock %}
 {% block meta_desc %}{{ job.summary|default:job.title }} Apply now with GLOBIS HR Consultancy — no login required.{% endblock %}
 {% block content %}
 <section class="page-head" style="padding-bottom:20px">
@@ -27,7 +27,7 @@
       <div class="card pad">
         <div class="facts">
           <div class="fact"><small>Salary</small><b class="gold-text">{{ job.salary|default:"Competitive" }}</b></div>
-          <div class="fact"><small>Location</small><b>{{ job.city|default:job.country }}</b></div>
+          <div class="fact"><small>Location</small><b>{{ job.location }}</b></div>
           <div class="fact"><small>Type</small><b>{{ job.get_employment_type_display }}</b></div>
           {% if job.working_hours %}<div class="fact"><small>Working hours</small><b>{{ job.working_hours }}</b></div>{% endif %}
           {% if job.contract_length %}<div class="fact"><small>Contract</small><b>{{ job.contract_length }}</b></div>{% endif %}
@@ -36,7 +36,7 @@
         {% if job.closing_date %}<p class="hint" style="margin-top:14px"><i class="fas fa-clock"></i> Apply before {{ job.closing_date|date:"j F Y" }}</p>{% endif %}
         <a class="btn btn-primary btn-lg btn-block" style="margin-top:18px" href="{% url 'apply_job' job.slug %}"><i class="fas fa-paper-plane"></i> Apply now</a>
         <div class="row2" style="margin-top:10px;gap:10px">
-          <a class="btn btn-ghost btn-block" href="https://wa.me/{{ COMPANY_WHATSAPP }}?text={{ 'Hello GLOBIS HR, I am interested in the '|urlencode }}{{ job.title|urlencode }}{{ ' job.'|urlencode }}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Ask us</a>
+          <a class="btn btn-ghost btn-block" href="https://wa.me/{{ COMPANY_WHATSAPP }}?text={{ 'Hello GLOBIS HR Consultancy, I am interested in the '|urlencode }}{{ job.title|urlencode }}{{ ' job.'|urlencode }}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Ask us</a>
           <button type="button" class="btn btn-wa btn-block" data-share data-native="1" data-path="{{ job.get_absolute_url }}" data-title="{{ job.title }}" data-text="*{{ job.title }}* – {{ job.location }}{% if job.salary %}\nSalary: {{ job.salary }}{% endif %}{% if job.working_hours %}\nHours: {{ job.working_hours }}{% endif %}\nApply now with GLOBIS HR:"><i class="fas fa-share-nodes"></i> Share</button>
         </div>
         <ul class="promise" style="margin-top:14px"><li><i class="fas fa-check"></i>No account or login</li><li><i class="fas fa-check"></i>Takes about 2 minutes</li><li><i class="fas fa-check"></i>CV is optional</li></ul>
